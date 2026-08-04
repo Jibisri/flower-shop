@@ -1,0 +1,141 @@
+body{
+    padding-top:90px;
+}
+
+/* Navbar */
+.navbar{
+    z-index:1050;
+}
+
+/* Navigation */
+.nav-menu{
+    display:flex;
+    gap:35px;
+}
+
+.nav-menu .nav-link{
+    color:purple !important;
+    font-weight:500;
+}
+
+.nav-menu .nav-link:hover{
+    color:#7b1fa2 !important;
+}
+
+/* Right Side */
+.navbar-right{
+    display:flex;
+    align-items:center;
+    margin-left:auto;
+    gap:20px;
+}
+
+/* Search */
+.search-box{
+    display:flex;
+    align-items:center;
+}
+
+.search-input{
+    width:250px;
+    height:46px;
+    border-radius:25px 0 0 25px !important;
+    border:1px solid #ddd;
+    border-right:none !important;
+    box-shadow:0 0 8px rgba(128,0,128,.15);
+}
+
+.search-input:focus{
+    border-color:purple;
+    box-shadow:0 0 10px rgba(128,0,128,.25);
+}
+
+.search-btn{
+    width:55px;
+    height:46px;
+    margin-left:0 !important;
+    border-radius:0 25px 25px 0 !important;
+    background:purple !important;
+    border:1px solid purple !important;
+    color:white !important;
+}
+
+.search-btn:hover{
+    background:#7b1fa2 !important;
+}
+
+/* Icons */
+.icon-menu{
+    display:flex;
+    flex-direction:row;
+    gap:18px;
+}
+
+.icon-menu .nav-link{
+    padding:0;
+}
+
+.icon-menu i{
+    color:purple;
+    font-size:22px;
+}
+
+.icon-menu i:hover{
+    color:#7b1fa2;
+}
+
+/* Mobile */
+@media(max-width:991px){
+
+    .nav-menu{
+        flex-direction:column;
+        gap:12px;
+        margin-bottom:20px;
+    }
+
+    .navbar-right{
+        width:100%;
+        flex-direction:column;
+        align-items:stretch;
+        gap:20px;
+    }
+
+    .search-input{
+        width:100%;
+    }
+
+    .icon-menu{
+        justify-content:center;
+    }
+}
+/* hero.jsx */
+
+.hero-section button:hover {
+  background: #5e0f82 !important;
+  transform: translateY(-2px);
+  transition: 0.3s ease;
+}
+
+/* about.jsx */
+
+body {
+  overflow-x: hidden;
+}
+
+.about-section {
+  min-height: 100vh;
+}
+
+@media (max-width: 768px) {
+  h1 {
+    text-align: center;
+  }
+
+  p {
+    text-align: center;
+  }
+
+  ul {
+    text-align: center;
+  }
+}

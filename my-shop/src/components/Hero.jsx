@@ -1,36 +1,68 @@
 import { Container, Row, Col, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import bgImage from "../assets/bg.image.png";
 
 function Hero() {
   return (
-    <div className="bg-light py-5">
+    <div
+      className="hero-section py-5"
+      style={{
+        backgroundImage: `url(${bgImage})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        minHeight: "80vh",
+        display: "flex",
+        alignItems: "center",
+      }}
+    >
       <Container>
         <Row className="align-items-center">
 
           {/* Left Side */}
           <Col md={6}>
-            <h1 className="display-4 fw-bold text-success">
-              Fresh Flowers for Every Occasion
+            <h1
+              className="fw-bold display-3"
+              style={{
+                color: "purple",
+                lineHeight: "1.2",
+              }}
+            >
+              Exclusive Floral Collection – Shop Today!
             </h1>
 
-            <p className="mt-3 text-secondary">
-              Surprise your loved ones with beautiful and fresh flowers.
-              Explore our collection of roses, lilies, tulips, bouquets,
-              and gift flowers.
+            <p
+              className="mt-4 d-none d-md-block"
+              style={{
+                color: "#423645",
+                fontSize: "1.1rem",
+              }}
+            >
+              Bring joy to every occasion with our fresh flower collection.
+              Shop beautiful roses, lilies, orchids, jasmine, traditional
+              pooja flowers, and stunning bouquets, all handpicked for lasting
+              freshness.
             </p>
 
-            <Button variant="success" size="lg">
-              Shop Now
+            <Button
+            as={Link}
+            to="/shop"
+              size="lg"
+              style={{
+                background: "#580a79",
+                border: "none",
+                color: "white",
+                padding: "12px 28px",
+                borderRadius: "12px",
+                boxShadow: "0 4px 12px rgba(123,31,162,0.3)",
+              }}
+            >
+              Shop Now <i class="bi bi-arrow-right"></i>
             </Button>
           </Col>
 
-          {/* Right Side */}
-          <Col md={6} className="text-center">
-            <img
-              src="https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=700"
-              alt="Flowers"
-              className="img-fluid rounded shadow"
-            />
-          </Col>
+          {/* Right Side - remove image because flowers are already in background */}
+          <Col md={6}></Col>
 
         </Row>
       </Container>

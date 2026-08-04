@@ -2,16 +2,16 @@ import { Container } from "react-bootstrap";
 
 function Footer() {
   return (
-    <footer className="bg-success text-white text-center py-3 mt-5">
+    <footer className=" text-white text-center py-3 mt-5" style={{background:"purple"}}>
       <Container>
-        <h5>🌸 Flower Shop</h5>
+        <h5>🌸 FLORENZA</h5>
 
         <p className="mb-1">
-          Fresh Flowers • Bouquets • Gifts
+           Flowers for Celebration....<i class="bi bi-heart"></i>
         </p>
 
         <p className="mb-0">
-          © 2026 Flower Shop. All Rights Reserved.
+          © 2026 FLORENZA. Making Every Movements Bloom.
         </p>
       </Container>
     </footer>

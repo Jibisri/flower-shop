@@ -1,87 +1,166 @@
-import { Navbar, Nav, Container, Form, FormControl, Button } from "react-bootstrap";
+import { useState } from "react";
 import { Link } from "react-router-dom";
-
-import { Flower1 } from "react-bootstrap-icons";
+import {
+  Navbar,
+  Nav,
+  Container,
+  Form,
+  FormControl,
+  Button,
+  Offcanvas,
+} from "react-bootstrap";
 
 function CustomNavbar() {
+  const [show, setShow] = useState(false);
+
+  const handleShow = () => setShow(true);
+  const handleClose = () => setShow(false);
+
   return (
-    <>
-      {/* Main Navbar */}
-      <Navbar bg="white" expand="lg" className="py-4 shadow-sm">
-        <Container fluid>
+    <Navbar
+      bg="light"
+      expand="lg"
+      fixed="top"
+      className="shadow-sm py-3"
+    >
+      <Container>
 
-          {/* Logo */}
-         <Navbar.Brand href="/" className="d-flex align-items-center">
-            <Flower1 size={35} color="purple" />
-            <span className="ms-2 fw-bold fs-4 text-dark">
-            FlorenZaa...<i class="bi bi-balloon-heart-fill text-danger"></i> 
-           </span>
-          </Navbar.Brand>
+        {/* Logo */}
+        <Navbar.Brand
+          as={Link}
+          to="/"
+          className="fw-bold fs-2"
+          style={{ color: "black", textDecoration: "none" }}
+        >
+          🌸 FLORENZA
+        </Navbar.Brand>
 
-          {/* Search */}
-          <Form className="d-flex mx-auto search-box ps-4 pe-4">
-            <FormControl
-              type="search"
-              placeholder="Search flowers..."
-              className="search-input"
-            />
+        {/* Toggle */}
+        <Navbar.Toggle
+          aria-controls="offcanvasNavbar"
+          onClick={handleShow}
+        />
 
-            <Button className="search-btn">
-              <i className="bi bi-search"></i>
-            </Button>
-          </Form>
+        {/* Offcanvas */}
+        <Navbar.Offcanvas
+          id="offcanvasNavbar"
+          placement="end"
+          show={show}
+          onHide={handleClose}
+        >
+          <Offcanvas.Header closeButton>
+            <Offcanvas.Title className="fw-bold">
+              🌸 FLORENZA
+            </Offcanvas.Title>
+          </Offcanvas.Header>
 
-          {/* Icons */}
-          <div className="d-flex align-items-center">
+          <Offcanvas.Body className="align-items-lg-center">
 
-            <Link to="/login" className="icon-link mx-2">
-              <i className="bi bi-person"></i>
-            </Link>
+            {/* Navigation */}
+            <Nav className="mx-auto nav-menu">
 
-            <Link to="/wishlist" className="icon-link mx-2">
-              <i className="bi bi-heart"></i>
-            </Link>
+              <Nav.Link
+                as={Link}
+                to="/"
+                onClick={handleClose}
+              >
+                Home
+              </Nav.Link>
 
-            <Link to="/cart" className="icon-link mx-2">
-           <i class="bi bi-cart4"></i>
-              <span className="ms-2">  (0)</span>
-            </Link>
+              <Nav.Link
+                as={Link}
+                to="/shop"
+                onClick={handleClose}
+              >
+                Shop
+              </Nav.Link>
+
+              <Nav.Link
+                as={Link}
+                to="/categories"
+                onClick={handleClose}
+              >
+                Categories
+              </Nav.Link>
+
+              <Nav.Link
+                as={Link}
+                to="/about"
+                onClick={handleClose}
+              >
+                About
+              </Nav.Link>
+
+              <Nav.Link
+                as={Link}
+                to="/contact"
+                onClick={handleClose}
+              >
+                Contact
+              </Nav.Link>
+
+            </Nav>
 
 
-          </div>
+{/* Right Side */}
+            <div className="navbar-right">
 
-        </Container>
-      </Navbar>
+              <Form className="search-box">
 
-      {/* Menu */}
-      <Navbar bg="white" expand="lg" className="border-top">
-        <Container>
+                <FormControl
+                  type="search"
+                  placeholder="Search flowers..."
+                  className="search-input"
+                />
 
-          <Nav className="mx-auto menu">
+                <Button className="search-btn">
+                  <i className="bi bi-search"></i>
+                </Button>
 
-            <Nav.Link as={Link} to="/">HOME</Nav.Link>
+              </Form>
 
-            <Nav.Link as={Link} to="/shop">
-              FLOWERS
-            </Nav.Link>
 
-            <Nav.Link href="#">
-              FLOWER DELIVERY
-            </Nav.Link>
+{/* icons */}
+              <Nav className="icon-menu">
 
-            <Nav.Link href="#">
-              SPECIAL OCCASION
-            </Nav.Link>
+{/* wishlist icon */}
+                <Nav.Link
+                  as={Link}
+                  to="/wishlist"
+                  onClick={handleClose}
+                >
+                  <i className="bi bi-heart fs-5"></i>
+                </Nav.Link>
 
-            <Nav.Link as={Link} to="/contact">
-              CONTACT
-            </Nav.Link>
 
-          </Nav>
+{/* cart icon */}
+                <Nav.Link
+                  as={Link}
+                  to="/cart"
+                  onClick={handleClose}
+                >
+                  <i className="bi bi-cart4 fs-5"></i>
+                </Nav.Link>
 
-        </Container>
-      </Navbar>
-    </>
+
+{/* login icon */}
+                <Nav.Link
+                  as={Link}
+                  to="/login"
+                  onClick={handleClose}
+                >
+                  <i className="bi bi-person fs-5"></i>
+                </Nav.Link>
+
+              </Nav>
+
+            </div>
+
+          </Offcanvas.Body>
+        </Navbar.Offcanvas>
+
+      </Container>
+    </Navbar>
   );
 }
 
