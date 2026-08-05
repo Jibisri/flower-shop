@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import {
   Navbar,
   Nav,
+  NavDropdown,
   Container,
   Form,
   FormControl,
@@ -59,6 +60,7 @@ function CustomNavbar() {
             {/* Navigation */}
             <Nav className="mx-auto nav-menu">
 
+{/* home */}
               <Nav.Link
                 as={Link}
                 to="/"
@@ -67,6 +69,7 @@ function CustomNavbar() {
                 Home
               </Nav.Link>
 
+{/* shop */}
               <Nav.Link
                 as={Link}
                 to="/shop"
@@ -75,14 +78,65 @@ function CustomNavbar() {
                 Shop
               </Nav.Link>
 
-              <Nav.Link
+{/* categories */}
+            <NavDropdown
+               title="Categories"
+                id="categories-dropdown"
+               onClick={(e) => e.stopPropagation()}
+            >
+             <NavDropdown.Item
+             as={Link}
+             to="/categories/bouquets"
+             onClick={handleClose}
+              >
+             💐 Bouquets
+            </NavDropdown.Item>
+
+             <NavDropdown.Item
+             as={Link}
+              to="/categories/loose-flowers"
+             onClick={handleClose}
+              >
+           🌸 Loose Flowers
+            </NavDropdown.Item>
+
+             <NavDropdown.Item
+            as={Link}
+             to="/categories/garlands"
+             onClick={handleClose}
+             >
+             🌺 Garlands
+            </NavDropdown.Item>
+
+            <NavDropdown.Item
+              as={Link}
+              to="/categories/pooja-flowers"
+              onClick={handleClose}
+             >
+              🌼 Pooja Flowers
+              </NavDropdown.Item>
+
+               <NavDropdown.Item
+               as={Link}
+                to="/categories/gifts"
+                onClick={handleClose}
+                 >
+               🎁 Gift Flowers
+               </NavDropdown.Item>
+
+              <NavDropdown.Divider />
+
+               <NavDropdown.Item
                 as={Link}
                 to="/categories"
                 onClick={handleClose}
-              >
-                Categories
-              </Nav.Link>
+                >
+               View All
+               </NavDropdown.Item>
+               </NavDropdown>
 
+
+{/* about */}
               <Nav.Link
                 as={Link}
                 to="/about"
@@ -91,6 +145,7 @@ function CustomNavbar() {
                 About
               </Nav.Link>
 
+{/* contact */}
               <Nav.Link
                 as={Link}
                 to="/contact"

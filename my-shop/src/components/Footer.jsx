@@ -2,7 +2,7 @@ import { Container } from "react-bootstrap";
 
 function Footer() {
   return (
-    <footer className=" text-white text-center py-3 mt-5" style={{background:"purple"}}>
+    <footer className=" text-white text-center py-3 mt-5 " style={{background:"purple"}}>
       <Container>
         <h5>🌸 FLORENZA</h5>
 

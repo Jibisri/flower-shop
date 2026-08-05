@@ -136,6 +136,15 @@ function About() {
         </Row>
 
       </Container>
+
+      <h5> Why Choose FLORENZA?</h5>
+
+<p>🌸At FLORENZA, we believe that flowers bring happiness, love, and positivity
+ to every occasion.
+  Whether you're celebrating a special moment, expressing your feelings,
+   or offering flowers for prayers, we help you find the perfect blooms. 
+   Our commitment is to provide fresh, high-quality flowers that make every moment
+    memorable.</p>
     </div>
   );
 }
