@@ -30,6 +30,7 @@ body{
     gap:20px;
 }
 
+
 /* Search */
 .search-box{
     display:flex;
@@ -73,10 +74,13 @@ body{
   font-weight: 500;
 }
 
+
 /* Remove arrow border */
 .dropdown-toggle::after {
   margin-left: 8px;
 }
+
+
 
 /* Dropdown menu */
 .dropdown-menu {
@@ -85,17 +89,21 @@ body{
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
+
+
 /* Dropdown items */
 .dropdown-item {
   padding: 10px 20px;
   transition: 0.3s;
 }
 
+
 /* Hover effect */
 .dropdown-item:hover {
   background: #f5e6ff;
   color: purple;
 }
+
 
 
 
@@ -118,6 +126,11 @@ body{
 .icon-menu i:hover{
     color:#7b1fa2;
 }
+
+
+
+
+
 
 /* Mobile */
 @media(max-width:991px){
@@ -143,6 +156,11 @@ body{
         justify-content:center;
     }
 }
+
+
+
+
+
 /* hero.jsx */
 
 .hero-section button:hover {
@@ -150,6 +168,31 @@ body{
   transform: translateY(-2px);
   transition: 0.3s ease;
 }
+
+
+
+/* footer.jsx */
+/* remove the hover effect */
+.footer,
+.footer:hover {
+  background: purple;
+}
+
+.footer h5,
+.footer p,
+.footer i {
+  color: white;
+}
+
+.footer h5:hover,
+.footer p:hover,
+.footer i:hover {
+  color: white;
+  cursor: default;
+}
+
+
+
 
 /* about.jsx */
 
@@ -181,7 +224,7 @@ body {
 /* shop,jsx */
 /* category by circle */
 
-.text-center div:hover {
+.category-circle:hover {
   transform: scale(1.08);
   background: #f5e6ff;
   transition: 0.3s ease;

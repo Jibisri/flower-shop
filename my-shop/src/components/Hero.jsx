@@ -58,7 +58,9 @@ function Hero() {
               }}
             >
               Shop Now <i class="bi bi-arrow-right"></i>
+              <shop/>
             </Button>
+            
           </Col>
 
           {/* Right Side - remove image because flowers are already in background */}

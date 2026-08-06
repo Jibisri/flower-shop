@@ -89,7 +89,8 @@ function CustomNavbar() {
              to="/categories/bouquets"
              onClick={handleClose}
               >
-             💐 Bouquets
+                <i class="bi bi-dot"></i>
+              Bouquets
             </NavDropdown.Item>
 
              <NavDropdown.Item
@@ -97,7 +98,8 @@ function CustomNavbar() {
               to="/categories/loose-flowers"
              onClick={handleClose}
               >
-           🌸 Loose Flowers
+                <i class="bi bi-dot"></i>
+           Loose Flowers
             </NavDropdown.Item>
 
              <NavDropdown.Item
@@ -105,7 +107,8 @@ function CustomNavbar() {
              to="/categories/garlands"
              onClick={handleClose}
              >
-             🌺 Garlands
+              <i class="bi bi-dot"></i>
+              Garlands
             </NavDropdown.Item>
 
             <NavDropdown.Item
@@ -113,7 +116,8 @@ function CustomNavbar() {
               to="/categories/pooja-flowers"
               onClick={handleClose}
              >
-              🌼 Pooja Flowers
+              <i class="bi bi-dot"></i>
+               Pooja Flowers
               </NavDropdown.Item>
 
                <NavDropdown.Item
@@ -121,19 +125,60 @@ function CustomNavbar() {
                 to="/categories/gifts"
                 onClick={handleClose}
                  >
-               🎁 Gift Flowers
+                  <i class="bi bi-dot"></i>
+                Gift Flowers
                </NavDropdown.Item>
 
               <NavDropdown.Divider />
 
                <NavDropdown.Item
                 as={Link}
-                to="/categories"
+                to="/shop"
                 onClick={handleClose}
                 >
                View All
                </NavDropdown.Item>
                </NavDropdown>
+
+
+{/* occasion */}
+             <NavDropdown
+  title="Occasions"
+  id="occasions-dropdown"
+  onClick={(e) => e.stopPropagation()}
+>
+  <NavDropdown.Item as={Link} to="/shop" onClick={handleClose}>
+    <i className="bi bi-dot"></i> Birthday
+  </NavDropdown.Item>
+
+  <NavDropdown.Item as={Link} to="/shop" onClick={handleClose}>
+    <i className="bi bi-dot"></i> Anniversary
+  </NavDropdown.Item>
+
+  <NavDropdown.Item as={Link} to="/shop" onClick={handleClose}>
+    <i className="bi bi-dot"></i> Wedding
+  </NavDropdown.Item>
+
+  <NavDropdown.Item as={Link} to="/shop" onClick={handleClose}>
+    <i className="bi bi-dot"></i> Pooja
+  </NavDropdown.Item>
+
+  <NavDropdown.Item as={Link} to="/shop" onClick={handleClose}>
+    <i className="bi bi-dot"></i> Congratulations
+  </NavDropdown.Item>
+
+  <NavDropdown.Item as={Link} to="/shop" onClick={handleClose}>
+    <i className="bi bi-dot"></i> Get Well Soon
+  </NavDropdown.Item>
+
+  <NavDropdown.Divider />
+
+  <NavDropdown.Item as={Link} to="/shop" onClick={handleClose}>
+    View All
+  </NavDropdown.Item>
+</NavDropdown>
+
+           
 
 
 {/* about */}
@@ -145,16 +190,7 @@ function CustomNavbar() {
                 About
               </Nav.Link>
 
-{/* contact */}
-              <Nav.Link
-                as={Link}
-                to="/contact"
-                onClick={handleClose}
-              >
-                Contact
-              </Nav.Link>
-
-            </Nav>
+              </Nav>
 
 
 {/* Right Side */}
