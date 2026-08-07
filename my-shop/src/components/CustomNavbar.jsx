@@ -24,13 +24,13 @@ function CustomNavbar() {
       fixed="top"
       className="shadow-sm py-3"
     >
-      <Container>
+      <Container fluid className="px-3">
 
         {/* Logo */}
         <Navbar.Brand
           as={Link}
           to="/"
-          className="fw-bold fs-2"
+          className="fw-bold fs-2 me-4"
           style={{ color: "black", textDecoration: "none" }}
         >
           🌸 FLORENZA
@@ -86,7 +86,7 @@ function CustomNavbar() {
             >
              <NavDropdown.Item
              as={Link}
-             to="/categories/bouquets"
+             to="/shop/bouquets"
              onClick={handleClose}
               >
                 <i class="bi bi-dot"></i>
@@ -95,7 +95,7 @@ function CustomNavbar() {
 
              <NavDropdown.Item
              as={Link}
-              to="/categories/loose-flowers"
+              to="/shop/loose-flowers"
              onClick={handleClose}
               >
                 <i class="bi bi-dot"></i>
@@ -104,7 +104,7 @@ function CustomNavbar() {
 
              <NavDropdown.Item
             as={Link}
-             to="/categories/garlands"
+             to="/shop/garlands"
              onClick={handleClose}
              >
               <i class="bi bi-dot"></i>
@@ -113,7 +113,7 @@ function CustomNavbar() {
 
             <NavDropdown.Item
               as={Link}
-              to="/categories/pooja-flowers"
+              to="/shop/pooja-flowers"
               onClick={handleClose}
              >
               <i class="bi bi-dot"></i>
@@ -122,7 +122,7 @@ function CustomNavbar() {
 
                <NavDropdown.Item
                as={Link}
-                to="/categories/gifts"
+                to="/shop/gifts"
                 onClick={handleClose}
                  >
                   <i class="bi bi-dot"></i>
@@ -133,7 +133,11 @@ function CustomNavbar() {
 
                <NavDropdown.Item
                 as={Link}
-                to="/shop"
+                to="/s
+      <Row>
+        {categories.map((item, index) => (
+          <Col md={3} key={index}>
+            <Carhop"
                 onClick={handleClose}
                 >
                View All
@@ -165,7 +169,7 @@ function CustomNavbar() {
 
   <NavDropdown.Item as={Link} to="/shop" onClick={handleClose}>
     <i className="bi bi-dot"></i> Congratulations
-  </NavDropdown.Item>
+  </NavDropdown.Item>categories
 
   <NavDropdown.Item as={Link} to="/shop" onClick={handleClose}>
     <i className="bi bi-dot"></i> Get Well Soon

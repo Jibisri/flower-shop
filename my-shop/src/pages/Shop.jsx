@@ -35,7 +35,7 @@ function Shop() {
         Shop By Occasion
       </h2>
 
-      <Row className="g-4 justify-content-center mb-5">
+      <Row className="g-5 justify-content-center mb-5">
         {occasions.map((item, index) => (
           <Col
             key={index}

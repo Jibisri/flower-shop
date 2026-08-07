@@ -50,15 +50,20 @@ function About() {
 
                 <ul className="list-unstyled">
 
-                  <li className="mb-3">🌹 Fresh Roses</li>
+                  <li className="mb-3">
+                    <i class="bi bi-check"></i>  Fresh Roses</li>
 
-                  <li className="mb-3">🌸 Premium Lilies</li>
+                  <li className="mb-3">
+                    <i class="bi bi-check"></i>  Premium Lilies</li>
 
-                  <li className="mb-3">🌺 Exotic Orchids</li>
+                  <li className="mb-3">
+                    <i class="bi bi-check"></i> Exotic Orchids</li>
 
-                  <li className="mb-3">🤍 Fragrant Jasmine</li>
+                  <li className="mb-3">
+                    <i class="bi bi-check"></i>  Fragrant Jasmine</li>
 
-                  <li className="mb-3">🌼 Pooja Flowers</li>
+                  <li className="mb-3">
+                    <i class="bi bi-check"></i>  Pooja Flowers</li>
 
                 </ul>
 
@@ -68,15 +73,19 @@ function About() {
 
                 <ul className="list-unstyled">
 
-                  <li className="mb-3">💐 Elegant Bouquets</li>
+                  <li className="mb-3">
+                    <i class="bi bi-check"></i>  Elegant Bouquets</li>
 
-                  <li className="mb-3">🎁 Floral Gifts</li>
+                  <li className="mb-3">
+                    <i class="bi bi-check"></i>  Floral Gifts</li>
 
-                  <li className="mb-3">💍 Wedding Flowers</li>
+                  <li className="mb-3">
+                    <i class="bi bi-check"></i>  Wedding Flowers</li>
 
-                  <li className="mb-3">🌿 Seasonal Flowers</li>
+                  <li className="mb-3" >
+                    <i class="bi bi-check"></i>  Seasonal Flowers</li>
 
-                  <li className="mb-3">🎉 Event Decoration</li>
+                  <li className="mb-3"> <i class="bi bi-check"></i>  Event Decoration</li>
 
                 </ul>
 
@@ -136,9 +145,9 @@ function About() {
         </Row>
 
       </Container>
-
+<br />
       <h5> Why Choose FLORENZA?</h5>
-
+<br />
 <p>🌸At FLORENZA, we believe that flowers bring happiness, love, and positivity
  to every occasion.
   Whether you're celebrating a special moment, expressing your feelings,

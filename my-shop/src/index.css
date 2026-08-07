@@ -10,7 +10,7 @@ body{
 /* Navigation */
 .nav-menu{
     display:flex;
-    gap:35px;
+    gap:30px;
 }
 
 .nav-menu .nav-link{
@@ -27,7 +27,7 @@ body{
     display:flex;
     align-items:center;
     margin-left:auto;
-    gap:20px;
+    gap:40px;
 }
 
 
@@ -229,3 +229,23 @@ body {
   background: #f5e6ff;
   transition: 0.3s ease;
 }
+
+/* contact.jsx section in home.jsx */
+
+.footer-link {
+  color: #6c757d;
+  text-decoration: none;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.footer-link:hover {
+  color: #d50b69;
+}
+
+
+/* ----------------for my use----------- */
+
+
+
+/* -------------------------------- */
