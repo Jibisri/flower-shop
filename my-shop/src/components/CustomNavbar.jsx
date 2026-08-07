@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import {
   Navbar,
   Nav,
@@ -14,8 +14,20 @@ import {
 function CustomNavbar() {
   const [show, setShow] = useState(false);
 
+  const [search, setSearch] = useState("");
+const navigate = useNavigate();
+
   const handleShow = () => setShow(true);
   const handleClose = () => setShow(false);
+
+  const handleSearch = (e) => {
+  e.preventDefault();
+
+  if (search.trim() !== "") {
+    navigate(`/shop?search=${search}`);
+    setSearch("");
+  }
+};
 
   return (
     <Navbar
@@ -24,13 +36,13 @@ function CustomNavbar() {
       fixed="top"
       className="shadow-sm py-3"
     >
-      <Container fluid className="px-3">
+      <Container>
 
         {/* Logo */}
         <Navbar.Brand
           as={Link}
           to="/"
-          className="fw-bold fs-2 me-4"
+          className="fw-bold fs-2"
           style={{ color: "black", textDecoration: "none" }}
         >
           🌸 FLORENZA
@@ -86,7 +98,7 @@ function CustomNavbar() {
             >
              <NavDropdown.Item
              as={Link}
-             to="/shop/bouquets"
+             to="/categories/bouquets"
              onClick={handleClose}
               >
                 <i class="bi bi-dot"></i>
@@ -95,7 +107,7 @@ function CustomNavbar() {
 
              <NavDropdown.Item
              as={Link}
-              to="/shop/loose-flowers"
+              to="/categories/loose-flowers"
              onClick={handleClose}
               >
                 <i class="bi bi-dot"></i>
@@ -104,7 +116,7 @@ function CustomNavbar() {
 
              <NavDropdown.Item
             as={Link}
-             to="/shop/garlands"
+             to="/categories/garlands"
              onClick={handleClose}
              >
               <i class="bi bi-dot"></i>
@@ -113,7 +125,7 @@ function CustomNavbar() {
 
             <NavDropdown.Item
               as={Link}
-              to="/shop/pooja-flowers"
+              to="/categories/pooja-flowers"
               onClick={handleClose}
              >
               <i class="bi bi-dot"></i>
@@ -122,7 +134,7 @@ function CustomNavbar() {
 
                <NavDropdown.Item
                as={Link}
-                to="/shop/gifts"
+                to="/categories/gifts"
                 onClick={handleClose}
                  >
                   <i class="bi bi-dot"></i>
@@ -133,11 +145,7 @@ function CustomNavbar() {
 
                <NavDropdown.Item
                 as={Link}
-                to="/s
-      <Row>
-        {categories.map((item, index) => (
-          <Col md={3} key={index}>
-            <Carhop"
+                to="/shop"
                 onClick={handleClose}
                 >
                View All
@@ -169,7 +177,7 @@ function CustomNavbar() {
 
   <NavDropdown.Item as={Link} to="/shop" onClick={handleClose}>
     <i className="bi bi-dot"></i> Congratulations
-  </NavDropdown.Item>categories
+  </NavDropdown.Item>
 
   <NavDropdown.Item as={Link} to="/shop" onClick={handleClose}>
     <i className="bi bi-dot"></i> Get Well Soon
@@ -200,19 +208,21 @@ function CustomNavbar() {
 {/* Right Side */}
             <div className="navbar-right">
 
-              <Form className="search-box">
+              <Form className="search-box" onSubmit={handleSearch}>
 
-                <FormControl
-                  type="search"
-                  placeholder="Search flowers..."
-                  className="search-input"
-                />
+  <FormControl
+    type="search"
+    placeholder="Search flowers..."
+    className="search-input"
+    value={search}
+    onChange={(e) => setSearch(e.target.value)}
+  />
 
-                <Button className="search-btn">
-                  <i className="bi bi-search"></i>
-                </Button>
+  <Button type="submit" className="search-btn">
+    <i className="bi bi-search"></i>
+  </Button>
 
-              </Form>
+</Form>
 
 
 {/* icons */}
