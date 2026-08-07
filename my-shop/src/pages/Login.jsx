@@ -55,7 +55,60 @@ function Login() {
 
     // Remember email
     if (rememberMe) {
-      localStorage.setItem("rememberEmail", email);
+      localStorage.setItem("rememberEmail", email);return (
+    <Container className="py-5">
+      <h2
+        className="text-center mb-5"
+        style={{
+          color: "#7B1FA2",
+          fontWeight: "bold",
+          fontFamily: "Georgia",
+        }}
+      >
+        Our Products
+      </h2>
+
+      <Row>
+        {filteredProducts.length > 0 ? (
+          filteredProducts.map((item) => (
+            <Col md={4} className="mb-4" key={item.id}>
+              <Card
+                className="shadow border-0 h-100"
+                style={{ borderRadius: "15px" }}
+              >
+                <Card.Img
+                  variant="top"
+                  src={item.image}
+                  style={{
+                    height: "260px",
+                    objectFit: "cover",
+                    borderTopLeftRadius: "15px",
+                    borderTopRightRadius: "15px",
+                  }}
+                />
+
+                <Card.Body className="text-center">
+                  <Card.Title>{item.name}</Card.Title>
+
+                  <h5 className="text-success">{item.price}</h5>
+
+                  <Button variant="outline-dark">
+                    View Details
+                  </Button>
+                </Card.Body>
+              </Card>
+            </Col>
+          ))
+        ) : (
+          <Col>
+            <h4 className="text-center text-danger">
+              No products found
+            </h4>
+          </Col>
+        )}
+      </Row>
+    </Container>
+  );
     } else {
       localStorage.removeItem("rememberEmail");
     }
