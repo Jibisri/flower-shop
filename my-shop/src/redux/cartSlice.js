@@ -1,11 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+// Get cart items from localStorage
+const savedCart = localStorage.getItem("cartItems");
+
+const initialState = {
+  items: savedCart ? JSON.parse(savedCart) : [],
+};
+
 const cartSlice = createSlice({
   name: "cart",
 
-  initialState: {
-    items: [],
-  },
+  initialState,
 
   reducers: {
     // Add product to cart
@@ -25,12 +30,24 @@ const cartSlice = createSlice({
           quantity: 1,
         });
       }
+
+      // Save cart to localStorage
+      localStorage.setItem(
+        "cartItems",
+        JSON.stringify(state.items)
+      );
     },
 
-    // Remove product
+    // Remove product from cart
     removeFromCart: (state, action) => {
       state.items = state.items.filter(
         (item) => item.id !== action.payload
+      );
+
+      // Save cart to localStorage
+      localStorage.setItem(
+        "cartItems",
+        JSON.stringify(state.items)
       );
     },
 
@@ -40,10 +57,16 @@ const cartSlice = createSlice({
         (item) => item.id === action.payload
       );
 
-      // Maximum = 20
+      // Maximum quantity = 20
       if (item && item.quantity < 20) {
         item.quantity += 1;
       }
+
+      // Save cart to localStorage
+      localStorage.setItem(
+        "cartItems",
+        JSON.stringify(state.items)
+      );
     },
 
     // Decrease quantity
@@ -52,10 +75,16 @@ const cartSlice = createSlice({
         (item) => item.id === action.payload
       );
 
-      // Minimum = 1
+      // Minimum quantity = 1
       if (item && item.quantity > 1) {
         item.quantity -= 1;
       }
+
+      // Save cart to localStorage
+      localStorage.setItem(
+        "cartItems",
+        JSON.stringify(state.items)
+      );
     },
   },
 });

@@ -23,6 +23,11 @@ function Product({ search }) {
     (state) => state.wishlist.items
   );
 
+  // Get cart items from Redux
+  const cartItems = useSelector(
+    (state) => state.cart.items
+  );
+
   const products = [
     {
       id: 1,
@@ -75,8 +80,6 @@ function Product({ search }) {
   // Buy Now
   const handleBuyNow = (item) => {
     dispatch(addToCart(item));
-
-    // Go to cart page
     navigate("/cart");
   };
 
@@ -86,6 +89,10 @@ function Product({ search }) {
         filteredProducts.map((item) => {
           const isWishlist = wishlistItems.some(
             (wishlistItem) => wishlistItem.id === item.id
+          );
+
+          const cartItem = cartItems.find(
+            (cartItem) => cartItem.id === item.id
           );
 
           return (
@@ -101,35 +108,33 @@ function Product({ search }) {
                 }}
               >
                 {/* Product Image */}
-
-                <Card.Img
-                  variant="top"
-                  src={item.image}
-                  alt={item.name}
-                  style={{
-                    height: "260px",
-                    objectFit: "cover",
+              <Card.Img
+               variant="top"
+                src={item.image}
+               alt={item.name}
+                style={{
+                  height: "300px",
+                 width: "100%",
+                    objectFit: "contain",
+                    backgroundColor: "#f8f8f8",
                     borderTopLeftRadius: "15px",
                     borderTopRightRadius: "15px",
-                  }}
-                />
+                   }}
+                   />
 
                 <Card.Body className="text-center">
 
                   {/* Product Name */}
-
                   <Card.Title>
                     {item.name}
                   </Card.Title>
 
                   {/* Price */}
-
                   <h5 className="text-success mb-3">
                     {item.price}
                   </h5>
 
                   {/* Wishlist */}
-
                   <Button
                     variant={
                       isWishlist
@@ -151,20 +156,24 @@ function Product({ search }) {
                   </Button>
 
                   {/* Add To Cart */}
-
                   <Button
-                    variant="outline-dark"
+                    variant={
+                      cartItem
+                        ? "success"
+                        : "outline-dark"
+                    }
                     className="me-2"
                     onClick={() =>
                       handleAddToCart(item)
                     }
                   >
                     <i className="bi bi-cart-plus"></i>{" "}
-                    Add to Cart
+                    {cartItem
+                      ? `Added (${cartItem.quantity})`
+                      : "Add to Cart"}
                   </Button>
 
                   {/* Buy Now */}
-
                   <Button
                     variant="dark"
                     onClick={() =>

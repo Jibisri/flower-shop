@@ -15,33 +15,22 @@ function Cart() {
   const cartItems = useSelector((state) => state.cart.items);
 
   // Calculate total price
-  const totalPrice = cartItems.reduce(
-    (total, item) => {
-      const price = Number(
-        item.price.replace("₹", "")
-      );
+  const totalPrice = cartItems.reduce((total, item) => {
+    const price = Number(String(item.price).replace("₹", "").trim());
 
-      return total + price * (item.quantity || 1);
-    },
-    0
-  );
+    return total + price * (item.quantity || 1);
+  }, 0);
 
   return (
-    <Container className="mt-5 mb-5">
-
-      <h1
-        className="text-center mb-5"
-        style={{
-          color: "#7B1FA2",
-          fontFamily: "Georgia",
-          fontWeight: "bold",
-        }}
-      >
-        My Cart
-      </h1>
+    <Container className="py-5">
+      {/* Page Heading */}
+      <h2 className="text-center mb-5" style={{color:"purple"}} >
+        Shopping Cart <i class="bi bi-wallet2"></i>
+        </h2>
 
       {cartItems.length === 0 ? (
-        <div className="text-center">
+        // Empty Cart
+        <div className="text-center py-5">
           <i
             className="bi bi-cart-x"
             style={{
@@ -50,305 +39,164 @@ function Cart() {
             }}
           ></i>
 
-          <h4 className="mt-3">
-            Your cart is empty.
-          </h4>
+          <h4 className="mt-3">Your cart is empty.</h4>
 
           <p className="text-muted">
             Add some beautiful flowers to your cart.
           </p>
         </div>
       ) : (
-        <>
-          <Row>
+        // Cart has products
+        <Row>
+          {/* Cart Products */}
+          <Col lg={8}>
+            {cartItems.map((item) => (
+              <Card
+                key={item.id}
+                className="mb-3 shadow-sm border-0"
+              >
+                <Card.Body>
+                  <Row className="align-items-center">
 
-            {/* Cart Products */}
+                    {/* Image */}
+                    <Col xs={4} md={3}>
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        className="img-fluid rounded"
+                        style={{
+                          height: "120px",
+                          width: "100%",
+                          objectFit: "contain",
+                          backgroundColor:"#f8f8f8",
+                          padding:"5px",
+                        }}
+                      />
+                    </Col>
 
-            <Col lg={8}>
-              {cartItems.map((item) => (
-                <Card
-                  key={item.id}
-                  className="mb-3 shadow-sm border-0"
-                >
-                  <Card.Body>
+                    {/* Product Details */}
+                    <Col xs={8} md={4}>
+                      <h5>{item.name}</h5>
 
-                    <Row className="align-items-center">
+                      <p className="text-success fw-bold mb-0">
+                        {item.price}
+                      </p>
+                    </Col>
 
-                      {/* Image */}
+                    {/* Quantity */}
+                    <Col
+                      xs={7}
+                      md={3}
+                      className="mt-3 mt-md-0"
+                    >
+                      <div className="d-flex align-items-center">
 
-                      <Col xs={4} md={3}>
-                        <img
-                          src={item.image}
-                          alt={item.name}
-                          className="img-fluid rounded"
-                          style={{
-                            height: "120px",
-                            width: "100%",
-                            objectFit: "cover",
-                          }}
-                        />
-                      </Col>
-
-                      {/* Product Details */}
-
-                      <Col xs={8} md={5}>
-                        <h5>
-                          {item.name}
-                        </h5>
-
-                        <p className="text-success fw-bold">
-                          {item.price}
-                        </p>
-                      </Col>
-
-                      {/* Quantity */}
-
-                      <Col
-                        xs={7}
-                        md={3}
-                        className="mt-3 mt-md-0"
-                      >
-                        <div className="d-flex align-items-center">
-
-                          <Button
-                            variant="outline-dark"
-                            size="sm"
-                            onClick={() =>
-                              dispatch(
-                                decreaseQuantity(item.id)
-                              )
-                            }
-                          >
-                            −
-                          </Button>
-
-                          <span className="mx-3 fw-bold">
-                            {item.quantity || 1}
-                          </span>
-
-                          <Button
-                            variant="outline-dark"
-                            size="sm"
-                            onClick={() =>
-                              dispatch(
-                                increaseQuantity(item.id)
-                              )
-                            }
-                          >
-                            +
-                          </Button>
-
-                        </div>
-                      </Col>
-
-                      {/* Remove */}
-
-                      <Col
-                        xs={5}
-                        md={1}
-                        className="text-end mt-3 mt-md-0"
-                      >
+                        {/* Decrease */}
                         <Button
-                          variant="outline-danger"
+                          variant="outline-dark"
                           size="sm"
                           onClick={() =>
-                            dispatch(
-                              removeFromCart(item.id)
-                            )
+                            dispatch(decreaseQuantity(item.id))
                           }
+                          disabled={(item.quantity || 1) <= 1}
                         >
-                          <i className="bi bi-trash"></i>
+                          −
                         </Button>
-                      </Col>
 
-                    </Row>
+                        {/* Quantity */}
+                        <span className="mx-3 fw-bold">
+                          {item.quantity || 1}
+                        </span>
 
-                  </Card.Body>
-                </Card>
-              ))}
-            </Col>
+                        {/* Increase */}
+                        <Button
+                          variant="outline-dark"
+                          size="sm"
+                          onClick={() =>
+                            dispatch(increaseQuantity(item.id))
+                          }
+                          disabled={(item.quantity || 1) >= 20}
+                        >
+                          +
+                        </Button>
 
-            {/* Order Summary */}
+                      </div>
+                    </Col>
 
-            <Col lg={4}>
+                    {/* Remove */}
+                    <Col
+                      xs={5}
+                      md={2}
+                      className="text-end mt-3 mt-md-0"
+                    >
+                      <Button
+                        variant="outline-danger"
+                        size="sm"
+                        onClick={() =>
+                          dispatch(removeFromCart(item.id))
+                        }
+                      >
+                        <i className="bi bi-trash"></i>
+                      </Button>
+                    </Col>
 
-              <Card className="shadow border-0">
-
-                <Card.Body>
-
-                  <h4 className="mb-4">
-                    Order Summary
-                  </h4>
-
-                  <div className="d-flex justify-content-between mb-3">
-                    <span>Subtotal</span>
-
-                    <strong>
-                      ₹{totalPrice}
-                    </strong>
-                  </div>
-
-                  <div className="d-flex justify-content-between mb-3">
-                    <span>Delivery</span>
-
-                    <span className="text-success">
-                      Free
-                    </span>
-                  </div>
-
-                  <hr />
-
-                  <div className="d-flex justify-content-between mb-4">
-                    <h5>Total</h5>
-
-                    <h5 className="text-success">
-                      ₹{totalPrice}
-                    </h5>
-                  </div>
-
-                  <Button
-                    variant="dark"
-                    className="w-100"
-                  >
-                    Proceed to Checkout
-                  </Button>
-
+                  </Row>
                 </Card.Body>
-
               </Card>
+            ))}
+          </Col>
 
-            </Col>{/* Quantity */}
+          {/* Order Summary */}
+          <Col lg={4}>
+            <Card className="shadow border-0">
+              <Card.Body>
 
-<Col
-  xs={7}
-  md={3}
-  className="mt-3 mt-md-0"
->
-  <div className="d-flex align-items-center">
+                <h4 className="mb-4" style={{color:"purple"}}>
+                  Order Summary
+                </h4>
 
-    {/* Decrease */}
+                {/* Subtotal */}
+                <div className="d-flex justify-content-between mb-3">
+                  <span>Subtotal</span>
 
-    <Button
-      variant="outline-dark"
-      size="sm"
-      onClick={() =>
-        dispatch(decreaseQuantity(item.id))
-      }
-      disabled={(item.quantity || 1) <= 1}
-    >
-      −
-    </Button>
+                  <strong>
+                    ₹{totalPrice.toFixed(2)}
+                  </strong>
+                </div>
 
-    {/* Quantity */}
+                {/* Delivery */}
+                <div className="d-flex justify-content-between mb-3">
+                  <span>Delivery</span>
 
-    <span className="mx-3 fw-bold">
-      {item.quantity || 1}{/* Quantity */}
+                  <span className="text-success">
+                    Free
+                  </span>
+                </div>
 
-<Col
-  xs={7}
-  md={3}
-  className="mt-3 mt-md-0"
->
-  <div className="d-flex align-items-center">
+                <hr />
 
-    {/* Decrease */}
+                {/* Total */}
+                <div className="d-flex justify-content-between mb-4" style={{color:"purple"}}>
+                  <h5>Total</h5>
 
-    <Button
-      variant="outline-dark"
-      size="sm"
-      onClick={() =>
-        dispatch(decreaseQuantity(item.id))
-      }
-      disabled={(item.quantity || 1) <= 1}
-    >
-      −
-    </Button>
-{/* Quantity */}
+                  <h5 className="text-success">
+                    ₹{totalPrice.toFixed(2)}
+                  </h5>
+                </div>
 
-<Col
-  xs={7}
-  md={3}
-  className="mt-3 mt-md-0"
->
-  <div className="d-flex align-items-center">
+                {/* Checkout */}
+                <Button
+                  variant="dark"
+                  className="w-100"
+                >
+                  Proceed to Checkout
+                </Button>
 
-    {/* Decrease */}
-
-    <Button
-      variant="outline-dark"
-      size="sm"
-      onClick={() =>
-        dispatch(decreaseQuantity(item.id))
-      }
-      disabled={(item.quantity || 1) <= 1}
-    >
-      −
-    </Button>
-
-    {/* Quantity */}
-
-    <span className="mx-3 fw-bold">
-      {item.quantity || 1}
-    </span>
-
-    {/* Increase */}
-
-    <Button
-      variant="outline-dark"
-      size="sm"
-      onClick={() =>
-        dispatch(increaseQuantity(item.id))
-      }
-      disabled={(item.quantity || 1) >= 20}
-    >
-      +
-    </Button>
-
-  </div>
-</Col>
-    {/* Quantity */}
-
-    <span className="mx-3 fw-bold">
-      {item.quantity || 1}
-    </span>
-
-    {/* Increase */}
-
-    <Button
-      variant="outline-dark"
-      size="sm"
-      onClick={() =>
-        dispatch(increaseQuantity(item.id))
-      }
-      disabled={(item.quantity || 1) >= 20}
-    >
-      +
-    </Button>
-
-  </div>
-</Col>
-    </span>
-
-    {/* Increase */}
-
-    <Button
-      variant="outline-dark"
-      size="sm"
-      onClick={() =>
-        dispatch(increaseQuantity(item.id))
-      }
-      disabled={(item.quantity || 1) >= 20}
-    >
-      +
-    </Button>
-
-  </div>
-</Col>
-
-          </Row>
-        </>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
       )}
-
     </Container>
   );
 }
