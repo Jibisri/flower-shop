@@ -1,11 +1,28 @@
 import React from "react";
-import { Container, Row, Col, Card, Button } from "react-bootstrap";
+import { Row, Col, Card, Button } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 import flower1 from "../assets/flower-1.png";
 import flower2 from "../assets/flower-2.png";
 import flower3 from "../assets/flower-3.jpg";
 
+import { addToCart } from "../redux/cartSlice";
+
+import {
+  addToWishlist,
+  removeFromWishlist,
+} from "../redux/wishlistSlice";
+
 function Product({ search }) {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  // Get wishlist items from Redux
+  const wishlistItems = useSelector(
+    (state) => state.wishlist.items
+  );
+
   const products = [
     {
       id: 1,
@@ -27,58 +44,142 @@ function Product({ search }) {
     },
   ];
 
+  // Search products
   const filteredProducts =
-  !search || search.trim() === ""
-    ? products
-    : products.filter((item) =>
-        item.name.toLowerCase().includes(search.toLowerCase())
-      );
-  
-  
-      return (
-  <Container className="py-5">
-    <h2
-      className="text-center mb-5"
-      style={{
-        color: "#7B1FA2",
-        fontWeight: "bold",
-        fontFamily: "Georgia",
-      }}
-    >
-      Our Products
-    </h2>
+    !search || search.trim() === ""
+      ? products
+      : products.filter((item) =>
+          item.name
+            .toLowerCase()
+            .includes(search.toLowerCase())
+        );
 
+  // Add to Cart
+  const handleAddToCart = (item) => {
+    dispatch(addToCart(item));
+  };
+
+  // Wishlist
+  const handleWishlist = (item) => {
+    const exists = wishlistItems.some(
+      (wishlistItem) => wishlistItem.id === item.id
+    );
+
+    if (exists) {
+      dispatch(removeFromWishlist(item.id));
+    } else {
+      dispatch(addToWishlist(item));
+    }
+  };
+
+  // Buy Now
+  const handleBuyNow = (item) => {
+    dispatch(addToCart(item));
+
+    // Go to cart page
+    navigate("/cart");
+  };
+
+  return (
     <Row>
       {filteredProducts.length > 0 ? (
-        filteredProducts.map((item) => (
-          <Col md={4} className="mb-4" key={item.id}>
-            <Card
-              className="shadow border-0 h-100"
-              style={{ borderRadius: "15px" }}
+        filteredProducts.map((item) => {
+          const isWishlist = wishlistItems.some(
+            (wishlistItem) => wishlistItem.id === item.id
+          );
+
+          return (
+            <Col
+              md={4}
+              className="mb-4"
+              key={item.id}
             >
-              <Card.Img
-                variant="top"
-                src={item.image}
+              <Card
+                className="shadow border-0 h-100"
                 style={{
-                  height: "260px",
-                  objectFit: "cover",
-                  borderTopLeftRadius: "15px",
-                  borderTopRightRadius: "15px",
+                  borderRadius: "15px",
                 }}
-              />
+              >
+                {/* Product Image */}
 
-              <Card.Body className="text-center">
-                <Card.Title>{item.name}</Card.Title>
+                <Card.Img
+                  variant="top"
+                  src={item.image}
+                  alt={item.name}
+                  style={{
+                    height: "260px",
+                    objectFit: "cover",
+                    borderTopLeftRadius: "15px",
+                    borderTopRightRadius: "15px",
+                  }}
+                />
 
-                <h5 className="text-success">{item.price}</h5>
+                <Card.Body className="text-center">
 
-                <Button variant="outline-dark">
-                  View Details
-                </Button>
-              </Card.Body>
-            </Card>
-          </Col>
-        ))
+                  {/* Product Name */}
+
+                  <Card.Title>
+                    {item.name}
+                  </Card.Title>
+
+                  {/* Price */}
+
+                  <h5 className="text-success mb-3">
+                    {item.price}
+                  </h5>
+
+                  {/* Wishlist */}
+
+                  <Button
+                    variant={
+                      isWishlist
+                        ? "danger"
+                        : "outline-danger"
+                    }
+                    className="me-2"
+                    onClick={() =>
+                      handleWishlist(item)
+                    }
+                  >
+                    <i
+                      className={
+                        isWishlist
+                          ? "bi bi-heart-fill"
+                          : "bi bi-heart"
+                      }
+                    ></i>
+                  </Button>
+
+                  {/* Add To Cart */}
+
+                  <Button
+                    variant="outline-dark"
+                    className="me-2"
+                    onClick={() =>
+                      handleAddToCart(item)
+                    }
+                  >
+                    <i className="bi bi-cart-plus"></i>{" "}
+                    Add to Cart
+                  </Button>
+
+                  {/* Buy Now */}
+
+                  <Button
+                    variant="dark"
+                    onClick={() =>
+                      handleBuyNow(item)
+                    }
+                  >
+                    <i className="bi bi-lightning-fill"></i>{" "}
+                    Buy Now
+                  </Button>
+
+                </Card.Body>
+              </Card>
+            </Col>
+          );
+        })
       ) : (
         <Col>
           <h4 className="text-center text-danger">
@@ -87,8 +188,7 @@ function Product({ search }) {
         </Col>
       )}
     </Row>
-  </Container>
-);
+  );
 }
 
 export default Product;

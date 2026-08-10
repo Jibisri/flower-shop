@@ -16,17 +16,17 @@ function ContactSection() {
             <h4 className="fw-bold mb-4">Contact</h4>
 
             <p className="text-muted mb-2">
-              <i className="bi bi-geo-alt-fill me-2 text-danger"></i>
+              <i className="bi bi-geo-alt-fill me-2" style={{color:"purple"}} ></i>
               Coimbatore, Tamil Nadu
             </p>
 
             <p className="text-muted mb-2">
-              <i className="bi bi-telephone-fill me-2 text-danger"></i>
+              <i className="bi bi-telephone-fill me-2" style={{color:"purple"}}></i>
               +91 98765 43210
             </p>
 
             <p className="text-muted">
-              <i className="bi bi-envelope-fill me-2 text-danger"></i>
+              <i className="bi bi-envelope-fill me-2" style={{color:"purple"}} ></i>
               support@florenza.com
             </p>
           </Col>

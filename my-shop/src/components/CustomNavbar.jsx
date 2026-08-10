@@ -25,7 +25,6 @@ const navigate = useNavigate();
 
   if (search.trim() !== "") {
     navigate(`/shop?search=${search}`);
-    setSearch("");
   }
 };
 
