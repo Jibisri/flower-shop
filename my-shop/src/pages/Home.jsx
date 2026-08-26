@@ -1,5 +1,6 @@
 import Hero from "../components/Hero";
 import Occasion from "../components/Occasion";
+import Categories from "../components/Categories";
 import Contact from "../pages/Contact";
 
 function Home() {
@@ -15,7 +16,9 @@ function Home() {
 {/* shop by occasion */}
 <Occasion/>
 
-
+{/* Categories.jsx */}
+{/* shop by category */}
+<Categories/>
 
 {/* Contact.jsx */}
 {/* contact section */}

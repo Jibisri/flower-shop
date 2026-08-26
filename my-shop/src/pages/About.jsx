@@ -2,7 +2,7 @@ import { Container, Row, Col } from "react-bootstrap";
 
 import flower1 from "../assets/flower-1.png";
 import flower2 from "../assets/flower-2.png";
-import flower3 from "../assets/flower-3.jpg";
+import flower3 from "../assets/purple-rose.jpg";
 
 import Contact from "../pages/Contact";
 
@@ -156,7 +156,7 @@ function About() {
 
       <h2 className="ms-5 mt-4" style={{color:"#2b5605c7"}}>
         <i class="bi bi-arrow-right"></i>
-        Contact us</h2>#2b5605c7#2b5605c7
+        Contact us</h2>
 
       <Contact />
     </>
