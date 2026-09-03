@@ -1,5 +1,13 @@
-import { Card, Col, Container, Row } from "react-bootstrap";
+import React from "react";
+import { Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+
+// Category images
+import bouquetImage from "../assets/red-2.webp";
+import orchidImage from "../assets/orchid-home.jpg";
+import poojaImage from "../assets/pooja-home.jpg";
+import garlandImage from "../assets/garland-2.webp";
+import looseFlowerImage from "../assets/petal-1.webp";
 
 function Categories() {
   const navigate = useNavigate();
@@ -7,103 +15,76 @@ function Categories() {
   const categories = [
     {
       name: "Bouquet",
-      icon: "🌸",
+      image: bouquetImage,
     },
     {
       name: "Orchid",
-      icon: "🌺",
+      image: orchidImage,
     },
     {
       name: "Pooja",
-      icon: "🌼",
+      image: poojaImage,
     },
     {
       name: "Garland",
-      icon: "🌹",
+      image: garlandImage,
     },
     {
       name: "Loose Flowers",
-      icon: "🌻",
+      image: looseFlowerImage,
     },
   ];
 
-  // When user clicks a category
   const handleCategory = (category) => {
     navigate(`/shop?category=${category}`);
   };
 
   return (
-    <Container className="my-5">
+    <Container className="my-5 category-container"> 
 
       {/* Heading */}
-      <h2
-        className="mb-5"
-        style={{
-          color: "#2b5605c7",
-          fontFamily: "Georgia",
-          fontWeight: "bold",
-          marginLeft: "120px",
-        }}
-      >
-        <i className="bi bi-arrow-right"></i>{" "}
-        Shop By Category
-      </h2>
+      <div className="text-center mb-4">
+        <h2
+          style={{
+            color: "#2b5605c7",
+            fontFamily: "Georgia",
+            fontWeight: "bold",
+          }}
+        >
+          <i className="bi bi-arrow-right"></i>{" "}
+          Shop By Category
+        </h2>
+
+        <p style={{ color: "#555" }}>
+          Explore our fresh flowers and beautiful arrangements
+        </p>
+      </div>
 
       {/* Categories */}
-      <Row className="g-4">
+      <div className="category-row">
 
         {categories.map((item, index) => (
-
-          <Col
-            md={4}
-            lg={3}
+          <div
             key={index}
+            className="category-item"
+            onClick={() => handleCategory(item.name)}
           >
 
-            <Card
-              className="text-center shadow border-0 h-100"
-              style={{
-                borderRadius: "15px",
-                cursor: "pointer",
-                transition: "0.3s",
-              }}
-              onClick={() =>
-                handleCategory(item.name)
-              }
-            >
+            {/* Image Circle */}
+            <div className="category-circle">
+              <img
+                src={item.image}
+                alt={item.name}
+              />
+            </div>
 
-              <Card.Body>
+            {/* Category Name */}
+            <h5>{item.name}</h5>
 
-                {/* Category Icon */}
-                <div
-                  style={{
-                    fontSize: "55px",
-                    marginBottom: "15px",
-                  }}
-                >
-                  {item.icon}
-                </div>
-
-                {/* Category Name */}
-                <h5
-                  style={{
-                    color: "#7b1fa2",
-                    fontFamily: "Georgia",
-                    fontWeight: "bold",
-                  }}
-                >
-                  {item.name}
-                </h5>
-
-              </Card.Body>
-
-            </Card>
-
-          </Col>
-
+          </div>
         ))}
 
-      </Row>
+      </div>
 
     </Container>
   );

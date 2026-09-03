@@ -10,7 +10,13 @@ function Occasion() {
     { title: "Congratulations", icon: "bi-check-circle-fill" },
     { title: "Get Well Soon", icon: "bi-heart-pulse-fill" },
     { title: "Wedding", icon: "bi-stars" },
+   
     { title: "Temple", icon: "bi-flower1" },
+    { title: "Anniversary", icon: "bi-gift-fill" },
+    { title: "Housewarming", icon: "bi-house-fill" },
+    {title: "father's Day", icon: "bi-person-fill" },
+    { title: "Mother's Day", icon: "bi-person-heart" }, 
+
   ];
 
   const handlePrev = () => {
@@ -22,197 +28,231 @@ function Occasion() {
   };
 
   return (
-    <Container className="py-5">
+    <section
+      style={{
+        backgroundColor: "#faf7ff",
+        padding: "45px 0",
+        marginTop: "30px",
+      }}
+    >
+      <Container fluid>
 
-      {/* Heading */}
-      <h2
-        className="mb-4"
-        style={{
-          color: "#2b5605c7",
-          fontFamily: "Georgia",
-          fontWeight: "bold",
-        }}
-      >
-        <i className="bi bi-arrow-right"></i>{" "}
-        Shop By Occasion
-      </h2>
+        {/* Heading */}
+        <div className="text-center mb-4">
 
-      {/* Occasion Carousel */}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          width: "100%",
-          gap: "0px",
-        }}
-      >
-
-        {/* LEFT ARROW */}
-        <button
-          onClick={handlePrev}
-          style={{
-            border: "none",
-            background: "transparent",
-            color: "#7B1FA2",
-            fontSize: "28px",
-            fontWeight: "bold",
-            cursor: "pointer",
-            padding: "0 2px",
-            margin: 0,
-            zIndex: 10,
-          }}
-        >
-          
-<i class="bi bi-arrow-left-short"></i>
-
-        </button>
-
-        {/* CAROUSEL */}
-        <div style={{ flex: "0 1 900px" ,
-          margin: 0,
-         }}>
-          <Carousel
-            ref={carouselRef}
-            indicators={false}
-            controls={false}
-            interval={3000}
+          <h2
+            style={{
+              color: "#2b5605c7",
+              fontFamily: "Georgia",
+              fontWeight: "bold",
+              fontSize: "clamp(24px, 4vw, 34px)",
+            }}
           >
+           <i className="bi bi-arrow-right"></i>{" "}
+            Shop By Occasion
+          </h2>
 
-            {/* FIRST SLIDE */}
-            <Carousel.Item>
-              <Row className="justify-content-center">
+          <p
+            style={{
+              color: "#666",
+              fontSize: "clamp(14px, 2vw, 17px)",
+            }}
+          >
+            Find the perfect flowers for every special moment.
+          </p>
 
-                {occasions.slice(0, 3).map((item, index) => (
-                  <Col
-                    xs={4}
-                    md={4}
-                    key={index}
-                    className="px-1"
-                  >
-                    <div className="text-center p-2">
-
-                      {/* Circle */}
-                      <div
-                        style={{
-                          width: "clamp(75px, 18vw, 140px)",
-                          height: "clamp(75px, 18vw, 140px)",
-                          margin: "auto",
-                          background: "#f8e9ff",
-                          borderRadius: "50%",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          boxShadow:
-                            "0 4px 10px rgba(0,0,0,0.15)",
-                        }}
-                      >
-                        <i
-                          className={`bi ${item.icon}`}
-                          style={{
-                            fontSize: "clamp(30px, 7vw, 60px)",
-                            color: "#7B1FA2",
-                          }}
-                        ></i>
-                      </div>
-
-                      {/* Occasion Name */}
-                      <h5
-                        className="mt-3"
-                        style={{
-                          color: "#7B1FA2",
-                          fontWeight: "600",
-                          fontSize: "clamp(11px, 2.5vw, 18px)",
-                        }}
-                      >
-                        {item.title}
-                      </h5>
-
-                    </div>
-                  </Col>
-                ))}
-
-              </Row>
-            </Carousel.Item>
-
-            {/* SECOND SLIDE */}
-            <Carousel.Item>
-              <Row className="justify-content-center">
-
-                {occasions.slice(3, 6).map((item, index) => (
-                  <Col
-                    xs={4}
-                    md={4}
-                    key={index}
-                    className="px-1"
-                  >
-                    <div className="text-center p-2">
-
-                      {/* Circle */}
-                      <div
-                        style={{
-                          width: "clamp(75px, 18vw, 140px)",
-                          height: "clamp(75px, 18vw, 140px)",
-                          margin: "auto",
-                          background: "#f8e9ff",
-                          borderRadius: "50%",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          boxShadow:
-                            "0 4px 10px rgba(0,0,0,0.15)",
-                        }}
-                      >
-                        <i
-                          className={`bi ${item.icon}`}
-                          style={{
-                            fontSize: "clamp(30px, 7vw, 60px)",
-                            color: "#7B1FA2",
-                          }}
-                        ></i>
-                      </div>
-
-                      {/* Occasion Name */}
-                      <h5
-                        className="mt-3"
-                        style={{
-                          color: "#7B1FA2",
-                          fontWeight: "600",
-                          fontSize: "clamp(11px, 2.5vw, 18px)",
-                        }}
-                      >
-                        {item.title}
-                      </h5>
-
-                    </div>
-                  </Col>
-                ))}
-
-              </Row>
-            </Carousel.Item>
-
-          </Carousel>
         </div>
 
-        {/* RIGHT ARROW */}
-        <button
-          onClick={handleNext}
+        {/* Carousel area */}
+        <div
           style={{
-            border: "none",
-            background: "transparent",
-            color: "#7B1FA2",
-            fontSize: "35px",
-            fontWeight: "bold",
-            cursor: "pointer",
-            padding: "0 10px",
-            zIndex: 10,
+            display: "flex",
+            alignItems: "center",
+            width: "100%",
           }}
         >
-          →
-        </button>
 
+          {/* LEFT ARROW */}
+          <button
+            onClick={handlePrev}
+            style={{
+              border: "none",
+              background: "white",
+              color: "#7B1FA2",
+              width: "42px",
+              height: "42px",
+              minWidth: "42px",
+              borderRadius: "50%",
+              fontSize: "25px",
+              cursor: "pointer",
+              boxShadow: "0 3px 10px rgba(0,0,0,0.15)",
+              zIndex: 5,
+            }}
+          >
+            <i className="bi bi-chevron-left"></i>
+          </button>
+
+          {/* CAROUSEL */}
+          <div
+            style={{
+              flex: 1,
+              margin: "0 8px",
+            }}
+          >
+            <Carousel
+              ref={carouselRef}
+              indicators={false}
+              controls={false}
+              interval={3000}
+            >
+
+            {/* FIRST SLIDE - 5 ITEMS */}
+<Carousel.Item>
+  <div
+    style={{
+      display: "flex",
+      flexWrap: "wrap",
+      justifyContent: "center",
+    }}
+  >
+    {occasions.slice(0, 5).map((item, index) => (
+      <div
+        key={index}
+        style={{
+          flex: "0 0 20%",
+          maxWidth: "20%",
+          textAlign: "center",
+          padding: "8px",
+        }}
+        className="occasion-item"
+      >
+        {/* Circle */}
+        <div
+          style={{
+            width: "clamp(80px, 13vw, 140px)",
+            height: "clamp(80px, 13vw, 140px)",
+            margin: "auto",
+            backgroundColor: "#f8e9ff",
+            borderRadius: "50%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            boxShadow: "0 4px 12px rgba(0,0,0,0.12)",
+          }}
+        >
+          <i
+            className={`bi ${item.icon}`}
+            style={{
+              fontSize: "clamp(30px, 5vw, 55px)",
+              color: "#7B1FA2",
+            }}
+          ></i>
+        </div>
+
+        {/* Name */}
+        <h5
+          className="mt-3"
+          style={{
+            color: "#7B1FA2",
+            fontWeight: "600",
+            fontSize: "clamp(11px, 1.5vw, 17px)",
+          }}
+        >
+          {item.title}
+        </h5>
       </div>
-    </Container>
+    ))}
+  </div>
+</Carousel.Item>
+
+
+{/* SECOND SLIDE - 5 ITEMS */}
+<Carousel.Item>
+  <div
+    style={{
+      display: "flex",
+      flexWrap: "wrap",
+      justifyContent: "center",
+    }}
+  >
+    {occasions.slice(5, 10).map((item, index) => (
+      <div
+        key={index}
+        style={{
+          flex: "0 0 20%",
+          maxWidth: "20%",
+          textAlign: "center",
+          padding: "8px",
+        }}
+        className="occasion-item"
+      >
+        {/* Circle */}
+        <div
+          style={{
+            width: "clamp(80px, 13vw, 140px)",
+            height: "clamp(80px, 13vw, 140px)",
+            margin: "auto",
+            backgroundColor: "#f8e9ff",
+            borderRadius: "50%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            boxShadow: "0 4px 12px rgba(0,0,0,0.12)",
+          }}
+        >
+          <i
+            className={`bi ${item.icon}`}
+            style={{
+              fontSize: "clamp(30px, 5vw, 55px)",
+              color: "#7B1FA2",
+            }}
+          ></i>
+        </div>
+
+        {/* Name */}
+        <h5
+          className="mt-3"
+          style={{
+            color: "#7B1FA2",
+            fontWeight: "600",
+            fontSize: "clamp(11px, 1.5vw, 17px)",
+          }}
+        >
+          {item.title}
+        </h5>
+      </div>
+    ))}
+  </div>
+</Carousel.Item>
+
+            </Carousel>
+          </div>
+
+
+          {/* RIGHT ARROW */}
+          <button
+            onClick={handleNext}
+            style={{
+              border: "none",
+              background: "white",
+              color: "#7B1FA2",
+              width: "42px",
+              height: "42px",
+              minWidth: "42px",
+              borderRadius: "50%",
+              fontSize: "25px",
+              cursor: "pointer",
+              boxShadow: "0 3px 10px rgba(0,0,0,0.15)",
+              zIndex: 5,
+            }}
+          >
+            <i className="bi bi-chevron-right"></i>
+          </button>
+
+        </div>
+
+      </Container>
+    </section>
   );
 }
 

@@ -1,7 +1,7 @@
 import Hero from "../components/Hero";
 import Occasion from "../components/Occasion";
 import Categories from "../components/Categories";
-import Contact from "../pages/Contact";
+import BestSeller from "../components/BestSeller";
 
 function Home() {
   return (
@@ -20,9 +20,9 @@ function Home() {
 {/* shop by category */}
 <Categories/>
 
-{/* Contact.jsx */}
-{/* contact section */}
-<Contact/>
+{/* BestSeller.jsx */}
+{/* best seller products */}
+<BestSeller/> 
 
 
 

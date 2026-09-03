@@ -1,9 +1,21 @@
 import React from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
+
 import { Row, Col, Card, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-// Product images
+// Redux
+import { addToCart } from "../redux/cartSlice";
+import {
+  addToWishlist,
+  removeFromWishlist,
+} from "../redux/wishlistSlice";
+
+// =========================
+// PRODUCT IMAGES
+// =========================
 
 // Bouquet flowers
 import flower1 from "../assets/flower-1.png";
@@ -31,147 +43,96 @@ import pinkBouquet from "../assets/pink-boq.jpg";
 import sev2 from "../assets/sev-2.webp";
 import sev1 from "../assets/sev-white.webp";
 
-// Redux
-import { addToCart } from "../redux/cartSlice";
+// loose flower
+import looseFlower from "../assets/loose flower.jpg";
 
-import {
-  addToWishlist,
-  removeFromWishlist,
-} from "../redux/wishlistSlice";
 
+// =========================
+// IMAGE MAP
+// =========================
+
+const imageMap = {
+  "Purple Orchid Bouquet": flower1,
+  "Rose Bouquet": flower2,
+  "Mixed Flower Basket": flower3,
+  "Red Roses Bouquet": red1,
+
+  "Loose Flower": looseFlower,
+  "loose flower": looseFlower,
+
+  "Yellow Sunflowers": yellow2,
+  "Sunflowers Bunch": yellow1,
+
+  "White Lilies": white1,
+  "Pink Peonies": pink1,
+  "Red Roses": red2,
+
+  "Blue Orchid": orchid1,
+  "Mixed Orchids": orchid2,
+
+  "Pink Bouquet": pinkBouquet,
+
+  "Sevanthi": sev2,
+  "White Sevanthi": sev1,
+};
+
+
+// =========================
+// PRODUCT COMPONENT
+// =========================
 
 function Product({ search, category }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // Get wishlist items from Redux
+  const [products, setProducts] = useState([]);
+
+
+  // =========================
+  // GET PRODUCTS FROM BACKEND
+  // =========================
+
+  useEffect(() => {
+  console.log("Calling backend...");
+
+  axios
+    .get("http://localhost:5000/api/products")
+    .then((response) => {
+      console.log("Backend response:", response.data);
+
+      const backendProducts = response.data.map((product) => ({
+        ...product,
+        id: product._id,
+        image: imageMap[product.name],
+        price: `₹${product.price}`,
+      }));
+
+      console.log("Products for frontend:", backendProducts);
+
+      setProducts(backendProducts);
+    })
+    .catch((error) => {
+      console.error("API ERROR:", error);
+    });
+}, []);
+
+
+  // =========================
+  // GET WISHLIST ITEMS
+  // =========================
+
   const wishlistItems = useSelector(
     (state) => state.wishlist.items
   );
 
-  // Get cart items from Redux
+
+  // =========================
+  // GET CART ITEMS
+  // =========================
+
   const cartItems = useSelector(
     (state) => state.cart.items
   );
-
-
-  // =========================
-  // PRODUCTS
-  // =========================
-
-  const products = [
-    {
-      id: 1,
-      name: "Purple Orchid Bouquet",
-      image: flower1,
-      price: "₹699",
-      category: "Bouquet",
-    },
-
-    {
-      id: 2,
-      name: "Rose Bouquet",
-      image: flower2,
-      price: "₹599",
-      category: "Bouquet",
-    },
-
-    {
-      id: 3,
-      name: "Mixed Flower Basket",
-      image: flower3,
-      price: "₹899",
-      category: "Bouquet",
-    },
-
-    {
-      id: 4,
-      name: "Red Roses Bouquet",
-      image: red1,
-      price: "₹799",
-      category: "Bouquet",
-    },
-
-    {
-      id: 5,
-      name: "Yellow Sunflowers",
-      image: yellow2,
-      price: "₹699",
-      category: "Loose Flowers",
-    },
-
-    {
-      id: 6,
-      name: "Yellow Sunflowers",
-      image: yellow1,
-      price: "₹799",
-      category: "Loose Flowers",
-    },
-
-    {
-      id: 7,
-      name: "White Lilies",
-      image: white1,
-      price: "₹899",
-      category: "Garland",
-    },
-
-    {
-      id: 8,
-      name: "Pink Peonies",
-      image: pink1,
-      price: "₹999",
-      category: "Garland",
-    },
-
-    {
-      id: 9,
-      name: "Red Roses",
-      image: red2,
-      price: "₹799",
-      category: "Bouquet",
-    },
-
-    {
-      id: 10,
-      name: "Blue Orchid",
-      image: orchid1,
-      price: "₹1299",
-      category: "Orchid",
-    },
-
-    {
-      id: 11,
-      name: "Mixed Orchids",
-      image: orchid2,
-      price: "₹1499",
-      category: "Orchid",
-    },
-
-    {
-      id: 12,
-      name: "Pink Bouquet",
-      image: pinkBouquet,
-      price: "₹1299",
-      category: "Bouquet",
-    },
-
-    {
-      id: 13,
-      name: "Sevanthi",
-      image: sev2,
-      price: "₹599",
-      category: "pooja",
-    },
-
-    {
-      id: 14,
-      name: "White Sevanthi",
-      image: sev1,
-      price: "₹499",
-      category: "pooja",
-    },
-  ];
 
 
   // =========================
@@ -205,6 +166,32 @@ function Product({ search, category }) {
     dispatch(addToCart(item));
   };
 
+// =========================
+// DELETE PRODUCT
+// =========================
+
+const handleDelete = async (id) => {
+  const confirmDelete = window.confirm(
+    "Are you sure you want to delete this product?"
+  );
+
+  if (!confirmDelete) return;
+
+  try {
+    await axios.delete(
+      `http://localhost:5000/api/products/${id}`
+    );
+
+    setProducts((prevProducts) =>
+      prevProducts.filter((product) => product.id !== id)
+    );
+
+    alert("Product deleted successfully! 🌸");
+  } catch (error) {
+    console.error("Delete error:", error);
+    alert("Failed to delete product");
+  }
+};
 
   // =========================
   // WISHLIST
@@ -255,12 +242,12 @@ function Product({ search, category }) {
   return (
 
     <Row
-  className="g-2"
-  style={{
-    marginLeft: "-8px",
-    marginRight: "-8px",
-  }}
->
+      className="g-2"
+      style={{
+        marginLeft: "-8px",
+        marginRight: "-8px",
+      }}
+    >
 
       {/* Products Heading */}
 
@@ -291,7 +278,9 @@ function Product({ search, category }) {
 
         filteredProducts.map((item) => {
 
-          // Wishlist check
+          // =========================
+          // WISHLIST CHECK
+          // =========================
 
           const isWishlist =
             wishlistItems.some(
@@ -300,7 +289,9 @@ function Product({ search, category }) {
             );
 
 
-          // Cart check
+          // =========================
+          // CART CHECK
+          // =========================
 
           const cartItem =
             cartItems.find(
@@ -333,106 +324,137 @@ function Product({ search, category }) {
                   src={item.image}
                   alt={item.name}
                   style={{
-                        height: "clamp(170px, 25vw, 300px)",
-                        width: "100%",
-                        objectFit: "contain",
-                        backgroundColor: "#f8f8f8",
-                        borderTopLeftRadius: "15px",
-                        borderTopRightRadius: "15px",
-                          }}
-                  />
+                    height: "clamp(170px, 25vw, 300px)",
+                    width: "100%",
+                    objectFit: "contain",
+                    backgroundColor: "#f8f8f8",
+                    borderTopLeftRadius: "15px",
+                    borderTopRightRadius: "15px",
+                  }}
+                />
 
 
                 <Card.Body className="text-center">
 
-  {/* Product Name */}
-  <Card.Title
-    style={{
-      fontSize: "20px",
-      fontWeight: "500",
-      marginBottom: "10px",
-    }}
-  >
-    {item.name}
-  </Card.Title>
+                  {/* Product Name */}
 
-  {/* Price */}
-  <h5 className="text-success mb-3">
-    {item.price}
-  </h5>
+                  <Card.Title
+                    style={{
+                      fontSize: "20px",
+                      fontWeight: "500",
+                      marginBottom: "10px",
+                    }}
+                  >
+                    {item.name}
+                  </Card.Title>
 
-  {/* Wishlist + Add To Cart */}
-  <div
-    className="d-flex justify-content-center align-items-center gap-2 mb-2"
-  >
 
-    {/* Wishlist */}
-    <Button
-      variant={
-        isWishlist
-          ? "danger"
-          : "outline-danger"
-      }
-      style={{
-        width: "52px",
-        height: "45px",
-        padding: "0",
-      }}
-      onClick={() =>
-        handleWishlist(item)
-      }
-    >
-      <i
-        className={
-          isWishlist
-            ? "bi bi-heart-fill"
-            : "bi bi-heart"
-        }
-        style={{ fontSize: "20px" }}
-      ></i>
-    </Button>
+                  {/* Price */}
 
-    {/* Add To Cart */}
-    <Button
-      variant={
-        cartItem
-          ? "success"
-          : "outline-dark"
-      }
-      style={{
-        height: "45px",
-        fontSize: "15px",
-        whiteSpace: "nowrap",
-      }}
-      onClick={() =>
-        handleAddToCart(item)
-      }
-    >
-      <i className="bi bi-cart-plus"></i>{" "}
-      {cartItem
-        ? `Added (${cartItem.quantity})`
-        : "Add to Cart"}
-    </Button>
+                  <h5 className="text-success mb-3">
+                    {item.price}
+                  </h5>
 
-  </div>
 
-  {/* Buy Now */}
-  <Button
-    variant="dark"
-    className="w-100"
-    style={{
-      height: "45px",
-      fontSize: "16px",
-    }}
-    onClick={() =>
-      handleBuyNow(item)
-    }
-  >
-    <i className="bi bi-lightning-fill"></i>{" "}
-    Buy Now
-  </Button>
+                  {/* Wishlist + Add To Cart */}
 
-</Card.Body>
+                  <div
+                    className="d-flex justify-content-center align-items-center gap-2 mb-2"
+                  >
+
+                    {/* Wishlist */}
+
+                    <Button
+                      variant={
+                        isWishlist
+                          ? "danger"
+                          : "outline-danger"
+                      }
+                      style={{
+                        width: "52px",
+                        height: "45px",
+                        padding: "0",
+                      }}
+                      onClick={() =>
+                        handleWishlist(item)
+                      }
+                    >
+
+                      <i
+                        className={
+                          isWishlist
+                            ? "bi bi-heart-fill"
+                            : "bi bi-heart"
+                        }
+                        style={{
+                          fontSize: "20px",
+                        }}
+                      ></i>
+
+                    </Button>
+
+
+                    {/* Add To Cart */}
+
+                    <Button
+                      variant={
+                        cartItem
+                          ? "success"
+                          : "outline-dark"
+                      }
+                      style={{
+                        height: "45px",
+                        fontSize: "15px",
+                        whiteSpace: "nowrap",
+                      }}
+                      onClick={() =>
+                        handleAddToCart(item)
+                      }
+                    >
+
+                      <i className="bi bi-cart-plus"></i>{" "}
+
+                      {cartItem
+                        ? `Added (${cartItem.quantity})`
+                        : "Add to Cart"}
+
+                    </Button>
+
+                  </div>
+
+
+                  {/* Buy Now */}
+
+                  <Button
+                    variant="dark"
+                    className="w-100"
+                    style={{
+                      height: "45px",
+                      fontSize: "16px",
+                    }}
+                    onClick={() =>
+                      handleBuyNow(item)
+                    }
+                  >
+
+                    <i className="bi bi-lightning-fill"></i>{" "}
+
+                    Buy Now
+
+                  </Button>
+
+                  {/* Delete Product */}
+                  
+                  <Button
+             variant="danger"
+             className="w-100 mt-2"
+             onClick={() => handleDelete(item.id)}
+             >
+              <i className="bi bi-trash"></i>{" "}
+              Delete
+                 </Button>
+
+                </Card.Body>
 
               </Card>
 
@@ -455,7 +477,6 @@ function Product({ search, category }) {
       )}
 
     </Row>
-
   );
 }
 

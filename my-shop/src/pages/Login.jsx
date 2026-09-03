@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
+
 import {
   Container,
   Row,
@@ -12,14 +14,17 @@ import {
 } from "react-bootstrap";
 
 function Login() {
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
-
   const [message, setMessage] = useState("");
   const [success, setSuccess] = useState(false);
 
-  // Load remembered email
+  // =========================
+  // LOAD REMEMBERED EMAIL
+  // =========================
   useEffect(() => {
     const savedEmail = localStorage.getItem("rememberEmail");
 
@@ -29,97 +34,98 @@ function Login() {
     }
   }, []);
 
-  // Email validation
+  // =========================
+  // EMAIL VALIDATION
+  // =========================
   const validateEmail = (email) => {
     const regex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.com$/;
     return regex.test(email);
   };
 
-  // Login
-  const handleSubmit = (e) => {
+  // =========================
+  // LOGIN
+  // =========================
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
+    setMessage("");
+    setSuccess(false);
+
+    // Email validation
     if (!validateEmail(email)) {
-      setSuccess(false);
       setMessage(
         "Enter a valid email (lowercase only, must contain @ and .com)."
       );
       return;
     }
 
+    // Password validation
     if (password.trim() === "") {
-      setSuccess(false);
       setMessage("Password is required.");
       return;
     }
 
-    // Remember email
+    // =========================
+    // REMEMBER EMAIL
+    // =========================
     if (rememberMe) {
-      localStorage.setItem("rememberEmail", email);return (
-    <Container className="py-5">
-      <h2
-        className="text-center mb-5"
-        style={{
-          color: "#7B1FA2",
-          fontWeight: "bold",
-          fontFamily: "Georgia",
-        }}
-      >
-        Our Products
-      </h2>
-
-      <Row>
-        {filteredProducts.length > 0 ? (
-          filteredProducts.map((item) => (
-            <Col md={4} className="mb-4" key={item.id}>
-              <Card
-                className="shadow border-0 h-100"
-                style={{ borderRadius: "15px" }}
-              >
-                <Card.Img
-                  variant="top"
-                  src={item.image}
-                  style={{
-                    height: "260px",
-                    objectFit: "cover",
-                    borderTopLeftRadius: "15px",
-                    borderTopRightRadius: "15px",
-                  }}
-                />
-
-                <Card.Body className="text-center">
-                  <Card.Title>{item.name}</Card.Title>
-
-                  <h5 className="text-success">{item.price}</h5>
-
-                  <Button variant="outline-dark">
-                    View Details
-                  </Button>
-                </Card.Body>
-              </Card>
-            </Col>
-          ))
-        ) : (
-          <Col>
-            <h4 className="text-center text-danger">
-              No products found
-            </h4>
-          </Col>
-        )}
-      </Row>
-    </Container>
-  );
+      localStorage.setItem("rememberEmail", email);
     } else {
       localStorage.removeItem("rememberEmail");
     }
 
-    setSuccess(true);
-    setMessage(" Welcome to Florenza!");
+    // =========================
+    // SEND LOGIN TO BACKEND
+    // =========================
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/users/login",
+        {
+          email: email.trim().toLowerCase(),
+          password: password,
+        }
+      );
 
-    // Clear password only
-    setPassword("");
+      console.log("Login response:", response.data);
+
+      // =========================
+      // LOGIN SUCCESS
+      // =========================
+      setSuccess(true);
+      setMessage("Welcome to Florenza! 🌸");
+
+      // Save JWT token if backend sends one
+      if (response.data.token) {
+        localStorage.setItem("token", response.data.token);
+      }
+
+      // Clear password
+      setPassword("");
+
+      // Go to Home page
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
+    } catch (error) {
+      console.error("Login error:", error);
+
+      setSuccess(false);
+
+      if (error.response) {
+        setMessage(
+          error.response.data.message || "Login failed."
+        );
+      } else {
+        setMessage(
+          "Cannot connect to backend. Please check the server."
+        );
+      }
+    }
   };
 
+  // =========================
+  // UI
+  // =========================
   return (
     <Container
       fluid
@@ -134,11 +140,16 @@ function Login() {
           <Card className="shadow-lg border-0 rounded-4">
             <Card.Body className="p-5">
 
+              {/* Heading */}
               <div className="text-center mb-4">
-                <h2 style={{ color: "purple",
-                fontWeight:300
-                 }}>
-                 <i class="bi bi-person"></i> Login 
+                <h2
+                  style={{
+                    color: "purple",
+                    fontWeight: 300,
+                  }}
+                >
+                  <i className="bi bi-person"></i>{" "}
+                  Login
                 </h2>
 
                 <p className="text-muted">
@@ -146,17 +157,21 @@ function Login() {
                 </p>
               </div>
 
+              {/* Message */}
               {message && (
                 <Alert variant={success ? "success" : "danger"}>
                   {message}
                 </Alert>
               )}
 
+              {/* Login Form */}
               <Form onSubmit={handleSubmit}>
 
                 {/* Email */}
                 <Form.Group className="mb-3">
-                  <Form.Label>Email Address</Form.Label>
+                  <Form.Label>
+                    Email Address
+                  </Form.Label>
 
                   <InputGroup>
                     <InputGroup.Text>
@@ -168,7 +183,9 @@ function Login() {
                       placeholder="Enter your email"
                       value={email}
                       onChange={(e) =>
-                        setEmail(e.target.value.toLowerCase())
+                        setEmail(
+                          e.target.value.toLowerCase()
+                        )
                       }
                     />
                   </InputGroup>
@@ -176,7 +193,9 @@ function Login() {
 
                 {/* Password */}
                 <Form.Group className="mb-3">
-                  <Form.Label>Password</Form.Label>
+                  <Form.Label>
+                    Password
+                  </Form.Label>
 
                   <InputGroup>
                     <InputGroup.Text>
@@ -194,7 +213,7 @@ function Login() {
                   </InputGroup>
                 </Form.Group>
 
-                {/* Remember Me */}
+                {/* Remember Me + Forgot Password */}
                 <div className="d-flex justify-content-between align-items-center mb-4">
 
                   <Form.Check
@@ -209,7 +228,9 @@ function Login() {
                   <Link
                     to="/forgot-password"
                     className="text-decoration-none"
-                    style={{ color: "purple" }}
+                    style={{
+                      color: "purple",
+                    }}
                   >
                     Forgot Password?
                   </Link>
@@ -232,18 +253,21 @@ function Login() {
                 <div className="text-center mt-4">
                   <p>
                     Don't have an account?{" "}
+
                     <Link
                       to="/register"
                       className="text-decoration-none fw-bold"
-                      style={{ color: "purple" }}
+                      style={{
+                        color: "purple",
+                      }}
                     >
                       Register
                     </Link>
+
                   </p>
                 </div>
 
               </Form>
-
             </Card.Body>
           </Card>
         </Col>
