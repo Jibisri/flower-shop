@@ -9,6 +9,7 @@ dns.setServers(["8.8.8.8", "1.1.1.1"]);
 
 const productRoutes = require("./routes/productRoutes");
 const userRoutes = require("./routes/userRoutes");
+const orderRoutes = require("./routes/orderRoutes");
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(express.json());
 // Routes
 app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/orders", orderRoutes);
 
 // MongoDB connection
 mongoose
@@ -30,6 +32,7 @@ mongoose
     console.log("MongoDB connection failed:", error.message);
   });
 
+// Start server
 app.listen(5000, () => {
   console.log("Server running on http://localhost:5000");
 });

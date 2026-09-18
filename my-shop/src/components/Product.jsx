@@ -43,9 +43,8 @@ import pinkBouquet from "../assets/pink-boq.jpg";
 import sev2 from "../assets/sev-2.webp";
 import sev1 from "../assets/sev-white.webp";
 
-// loose flower
+// Loose flower
 import looseFlower from "../assets/loose flower.jpg";
-
 
 // =========================
 // IMAGE MAP
@@ -76,7 +75,6 @@ const imageMap = {
   "White Sevanthi": sev1,
 };
 
-
 // =========================
 // PRODUCT COMPONENT
 // =========================
@@ -85,37 +83,38 @@ function Product({ search, category }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [products, setProducts] = useState([]);
+  const savedUser = localStorage.getItem("user");
+const user = savedUser ? JSON.parse(savedUser) : null;
 
+  const [products, setProducts] = useState([]);
 
   // =========================
   // GET PRODUCTS FROM BACKEND
   // =========================
 
   useEffect(() => {
-  console.log("Calling backend...");
+    console.log("Calling backend...");
 
-  axios
-    .get("http://localhost:5000/api/products")
-    .then((response) => {
-      console.log("Backend response:", response.data);
+    axios
+      .get("http://localhost:5000/api/products")
+      .then((response) => {
+        console.log("Backend response:", response.data);
 
-      const backendProducts = response.data.map((product) => ({
-        ...product,
-        id: product._id,
-        image: imageMap[product.name],
-        price: `₹${product.price}`,
-      }));
+        const backendProducts = response.data.map((product) => ({
+          ...product,
+          id: product._id,
+          image: imageMap[product.name],
+          price: `₹${product.price}`,
+        }));
 
-      console.log("Products for frontend:", backendProducts);
+        console.log("Products for frontend:", backendProducts);
 
-      setProducts(backendProducts);
-    })
-    .catch((error) => {
-      console.error("API ERROR:", error);
-    });
-}, []);
-
+        setProducts(backendProducts);
+      })
+      .catch((error) => {
+        console.error("API ERROR:", error);
+      });
+  }, []);
 
   // =========================
   // GET WISHLIST ITEMS
@@ -125,7 +124,6 @@ function Product({ search, category }) {
     (state) => state.wishlist.items
   );
 
-
   // =========================
   // GET CART ITEMS
   // =========================
@@ -134,113 +132,101 @@ function Product({ search, category }) {
     (state) => state.cart.items
   );
 
-
   // =========================
   // SEARCH + CATEGORY FILTER
   // =========================
 
   const filteredProducts = products.filter((item) => {
-
     const matchesSearch =
       !search ||
       item.name
         .toLowerCase()
         .includes(search.toLowerCase());
 
-
     const matchesCategory =
       !category ||
       category === "All" ||
       item.category === category;
 
-
     return matchesSearch && matchesCategory;
   });
-
 
   // =========================
   // ADD TO CART
   // =========================
 
   const handleAddToCart = (item) => {
+    if (item.stock <= 0) {
+      return;
+    }
+
     dispatch(addToCart(item));
   };
 
-// =========================
-// DELETE PRODUCT
-// =========================
+  // =========================
+  // DELETE PRODUCT
+  // =========================
 
-const handleDelete = async (id) => {
-  const confirmDelete = window.confirm(
-    "Are you sure you want to delete this product?"
-  );
-
-  if (!confirmDelete) return;
-
-  try {
-    await axios.delete(
-      `http://localhost:5000/api/products/${id}`
+  const handleDelete = async (id) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this product?"
     );
 
-    setProducts((prevProducts) =>
-      prevProducts.filter((product) => product.id !== id)
-    );
+    if (!confirmDelete) return;
 
-    alert("Product deleted successfully! 🌸");
-  } catch (error) {
-    console.error("Delete error:", error);
-    alert("Failed to delete product");
-  }
-};
+    try {
+      await axios.delete(
+        `http://localhost:5000/api/products/${id}`
+      );
+
+      setProducts((prevProducts) =>
+        prevProducts.filter(
+          (product) => product.id !== id
+        )
+      );
+
+      alert("Product deleted successfully! 🌸");
+    } catch (error) {
+      console.error("Delete error:", error);
+      alert("Failed to delete product");
+    }
+  };
 
   // =========================
   // WISHLIST
   // =========================
 
   const handleWishlist = (item) => {
-
     const exists = wishlistItems.some(
       (wishlistItem) =>
         wishlistItem.id === item.id
     );
 
-
     if (exists) {
-
-      dispatch(
-        removeFromWishlist(item.id)
-      );
-
+      dispatch(removeFromWishlist(item.id));
     } else {
-
-      dispatch(
-        addToWishlist(item)
-      );
-
+      dispatch(addToWishlist(item));
     }
   };
-
 
   // =========================
   // BUY NOW
   // =========================
 
   const handleBuyNow = (item) => {
+    if (item.stock <= 0) {
+      return;
+    }
 
-    dispatch(
-      addToCart(item)
-    );
-
+    dispatch(addToCart(item));
     navigate("/cart");
   };
-
 
   // =========================
   // UI
   // =========================
 
   return (
-
     <Row
       className="g-2"
       style={{
@@ -248,11 +234,9 @@ const handleDelete = async (id) => {
         marginRight: "-8px",
       }}
     >
-
       {/* Products Heading */}
 
       <Col xs={12}>
-
         <h2
           className="mb-5"
           style={{
@@ -262,22 +246,15 @@ const handleDelete = async (id) => {
             marginLeft: "120px",
           }}
         >
-
           <i className="bi bi-arrow-right"></i>{" "}
-
           Products
-
         </h2>
-
       </Col>
-
 
       {/* Products */}
 
       {filteredProducts.length > 0 ? (
-
         filteredProducts.map((item) => {
-
           // =========================
           // WISHLIST CHECK
           // =========================
@@ -287,7 +264,6 @@ const handleDelete = async (id) => {
               (wishlistItem) =>
                 wishlistItem.id === item.id
             );
-
 
           // =========================
           // CART CHECK
@@ -299,9 +275,7 @@ const handleDelete = async (id) => {
                 cartItem.id === item.id
             );
 
-
           return (
-
             <Col
               xs={6}
               sm={6}
@@ -309,14 +283,12 @@ const handleDelete = async (id) => {
               className="mb-3 px-1"
               key={item.id}
             >
-
               <Card
                 className="shadow border-0 h-100"
                 style={{
                   borderRadius: "15px",
                 }}
               >
-
                 {/* Product Image */}
 
                 <Card.Img
@@ -333,9 +305,7 @@ const handleDelete = async (id) => {
                   }}
                 />
 
-
                 <Card.Body className="text-center">
-
                   {/* Product Name */}
 
                   <Card.Title
@@ -348,6 +318,19 @@ const handleDelete = async (id) => {
                     {item.name}
                   </Card.Title>
 
+                  {/* Stock Status */}
+
+                  <p
+                    className={
+                      item.stock > 0
+                        ? "text-success mb-2"
+                        : "text-danger mb-2"
+                    }
+                  >
+                    {item.stock > 0
+                      ? `In Stock (${item.stock})`
+                      : "Out of Stock"}
+                  </p>
 
                   {/* Price */}
 
@@ -355,13 +338,11 @@ const handleDelete = async (id) => {
                     {item.price}
                   </h5>
 
-
                   {/* Wishlist + Add To Cart */}
 
                   <div
                     className="d-flex justify-content-center align-items-center gap-2 mb-2"
                   >
-
                     {/* Wishlist */}
 
                     <Button
@@ -379,7 +360,6 @@ const handleDelete = async (id) => {
                         handleWishlist(item)
                       }
                     >
-
                       <i
                         className={
                           isWishlist
@@ -390,15 +370,15 @@ const handleDelete = async (id) => {
                           fontSize: "20px",
                         }}
                       ></i>
-
                     </Button>
-
 
                     {/* Add To Cart */}
 
                     <Button
                       variant={
-                        cartItem
+                        item.stock === 0
+                          ? "secondary"
+                          : cartItem
                           ? "success"
                           : "outline-dark"
                       }
@@ -407,21 +387,19 @@ const handleDelete = async (id) => {
                         fontSize: "15px",
                         whiteSpace: "nowrap",
                       }}
+                      disabled={item.stock === 0}
                       onClick={() =>
                         handleAddToCart(item)
                       }
                     >
-
                       <i className="bi bi-cart-plus"></i>{" "}
-
-                      {cartItem
+                      {item.stock === 0
+                        ? "Out of Stock"
+                        : cartItem
                         ? `Added (${cartItem.quantity})`
                         : "Add to Cart"}
-
                     </Button>
-
                   </div>
-
 
                   {/* Buy Now */}
 
@@ -432,53 +410,43 @@ const handleDelete = async (id) => {
                       height: "45px",
                       fontSize: "16px",
                     }}
+                    disabled={item.stock === 0}
                     onClick={() =>
                       handleBuyNow(item)
                     }
                   >
-
                     <i className="bi bi-lightning-fill"></i>{" "}
-
                     Buy Now
-
                   </Button>
 
                   {/* Delete Product */}
-                  
-                  <Button
-             variant="danger"
-             className="w-100 mt-2"
-             onClick={() => handleDelete(item.id)}
-             >
-              <i className="bi bi-trash"></i>{" "}
-              Delete
-                 </Button>
 
+              {user && user.role === "admin" && (
+             <Button
+              variant="danger"
+              className="w-100 mt-2"
+             onClick={() =>
+                handleDelete(item.id)
+                    }
+                  >
+                    <i className="bi bi-trash"></i>{" "}
+                    Delete
+                  </Button>
+                  )}
                 </Card.Body>
-
               </Card>
-
             </Col>
-
           );
-
         })
-
       ) : (
-
         <Col>
-
           <h4 className="text-center text-danger">
             No products found
           </h4>
-
         </Col>
-
       )}
-
     </Row>
   );
 }
-
 
 export default Product;

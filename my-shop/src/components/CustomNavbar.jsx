@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link,useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Navbar,
   Nav,
@@ -13,20 +13,24 @@ import {
 
 function CustomNavbar() {
   const [show, setShow] = useState(false);
-
   const [search, setSearch] = useState("");
-const navigate = useNavigate();
+
+  const navigate = useNavigate();
+
+  const savedUser = localStorage.getItem("user");
+const user = savedUser ? JSON.parse(savedUser) : null;
 
   const handleShow = () => setShow(true);
   const handleClose = () => setShow(false);
 
   const handleSearch = (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  if (search.trim() !== "") {
-    navigate(`/shop?search=${search}`);
-  }
-};
+    if (search.trim() !== "") {
+      navigate(`/shop?search=${search}`);
+      handleClose();
+    }
+  };
 
   return (
     <Navbar
@@ -71,7 +75,7 @@ const navigate = useNavigate();
             {/* Navigation */}
             <Nav className="mx-auto nav-menu">
 
-{/* home */}
+              {/* Home */}
               <Nav.Link
                 as={Link}
                 to="/"
@@ -80,7 +84,7 @@ const navigate = useNavigate();
                 Home
               </Nav.Link>
 
-{/* shop */}
+              {/* Shop */}
               <Nav.Link
                 as={Link}
                 to="/shop"
@@ -89,110 +93,134 @@ const navigate = useNavigate();
                 Shop
               </Nav.Link>
 
-{/* categories */}
-            <NavDropdown
-               title="Categories"
+              {/* Categories */}
+              <NavDropdown
+                title="Categories"
                 id="categories-dropdown"
-               onClick={(e) => e.stopPropagation()}
-            >
-             <NavDropdown.Item
-             as={Link}
-             to="/categories/bouquets"
-             onClick={handleClose}
+                onClick={(e) => e.stopPropagation()}
               >
-                <i class="bi bi-dot"></i>
-              Bouquets
-            </NavDropdown.Item>
-
-             <NavDropdown.Item
-             as={Link}
-              to="/categories/loose-flowers"
-             onClick={handleClose}
-              >
-                <i class="bi bi-dot"></i>
-           Loose Flowers
-            </NavDropdown.Item>
-
-             <NavDropdown.Item
-            as={Link}
-             to="/categories/garlands"
-             onClick={handleClose}
-             >
-              <i class="bi bi-dot"></i>
-              Garlands
-            </NavDropdown.Item>
-
-            <NavDropdown.Item
-              as={Link}
-              to="/categories/pooja-flowers"
-              onClick={handleClose}
-             >
-              <i class="bi bi-dot"></i>
-               Pooja Flowers
-              </NavDropdown.Item>
-
-               <NavDropdown.Item
-               as={Link}
-                to="/categories/gifts"
-                onClick={handleClose}
-                 >
-                  <i class="bi bi-dot"></i>
-                Gift Flowers
-               </NavDropdown.Item>
-
-              <NavDropdown.Divider />
-
-               <NavDropdown.Item
-                as={Link}
-                to="/shop"
-                onClick={handleClose}
+                <NavDropdown.Item
+                  as={Link}
+                  to="/categories/bouquets"
+                  onClick={handleClose}
                 >
-               View All
-               </NavDropdown.Item>
-               </NavDropdown>
+                  <i className="bi bi-dot"></i>
+                  Bouquets
+                </NavDropdown.Item>
 
+                <NavDropdown.Item
+                  as={Link}
+                  to="/categories/loose-flowers"
+                  onClick={handleClose}
+                >
+                  <i className="bi bi-dot"></i>
+                  Loose Flowers
+                </NavDropdown.Item>
 
-{/* occasion */}
-             <NavDropdown
-  title="Occasions"
-  id="occasions-dropdown"
-  onClick={(e) => e.stopPropagation()}
->
-  <NavDropdown.Item as={Link} to="/shop" onClick={handleClose}>
-    <i className="bi bi-dot"></i> Birthday
-  </NavDropdown.Item>
+                <NavDropdown.Item
+                  as={Link}
+                  to="/categories/garlands"
+                  onClick={handleClose}
+                >
+                  <i className="bi bi-dot"></i>
+                  Garlands
+                </NavDropdown.Item>
 
-  <NavDropdown.Item as={Link} to="/shop" onClick={handleClose}>
-    <i className="bi bi-dot"></i> Anniversary
-  </NavDropdown.Item>
+                <NavDropdown.Item
+                  as={Link}
+                  to="/categories/pooja-flowers"
+                  onClick={handleClose}
+                >
+                  <i className="bi bi-dot"></i>
+                  Pooja Flowers
+                </NavDropdown.Item>
 
-  <NavDropdown.Item as={Link} to="/shop" onClick={handleClose}>
-    <i className="bi bi-dot"></i> Wedding
-  </NavDropdown.Item>
+                <NavDropdown.Item
+                  as={Link}
+                  to="/categories/gifts"
+                  onClick={handleClose}
+                >
+                  <i className="bi bi-dot"></i>
+                  Gift Flowers
+                </NavDropdown.Item>
 
-  <NavDropdown.Item as={Link} to="/shop" onClick={handleClose}>
-    <i className="bi bi-dot"></i> Pooja
-  </NavDropdown.Item>
+                <NavDropdown.Divider />
 
-  <NavDropdown.Item as={Link} to="/shop" onClick={handleClose}>
-    <i className="bi bi-dot"></i> Congratulations
-  </NavDropdown.Item>
+                <NavDropdown.Item
+                  as={Link}
+                  to="/shop"
+                  onClick={handleClose}
+                >
+                  View All
+                </NavDropdown.Item>
+              </NavDropdown>
 
-  <NavDropdown.Item as={Link} to="/shop" onClick={handleClose}>
-    <i className="bi bi-dot"></i> Get Well Soon
-  </NavDropdown.Item>
+              {/* Occasions */}
+              <NavDropdown
+                title="Occasions"
+                id="occasions-dropdown"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <NavDropdown.Item
+                  as={Link}
+                  to="/shop"
+                  onClick={handleClose}
+                >
+                  <i className="bi bi-dot"></i> Birthday
+                </NavDropdown.Item>
 
-  <NavDropdown.Divider />
+                <NavDropdown.Item
+                  as={Link}
+                  to="/shop"
+                  onClick={handleClose}
+                >
+                  <i className="bi bi-dot"></i> Anniversary
+                </NavDropdown.Item>
 
-  <NavDropdown.Item as={Link} to="/shop" onClick={handleClose}>
-    View All
-  </NavDropdown.Item>
-</NavDropdown>
+                <NavDropdown.Item
+                  as={Link}
+                  to="/shop"
+                  onClick={handleClose}
+                >
+                  <i className="bi bi-dot"></i> Wedding
+                </NavDropdown.Item>
 
-           
+                <NavDropdown.Item
+                  as={Link}
+                  to="/shop"
+                  onClick={handleClose}
+                >
+                  <i className="bi bi-dot"></i> Pooja
+                </NavDropdown.Item>
 
+                <NavDropdown.Item
+                  as={Link}
+                  to="/shop"
+                  onClick={handleClose}
+                >
+                  <i className="bi bi-dot"></i> Congratulations
+                </NavDropdown.Item>
 
-{/* about */}
+                <NavDropdown.Item
+                  as={Link}
+                  to="/shop"
+                  onClick={handleClose}
+                >
+                  <i className="bi bi-dot"></i> Get Well Soon
+                </NavDropdown.Item>
+
+                <NavDropdown.Divider />
+
+                <NavDropdown.Item
+                  as={Link}
+                  to="/shop"
+                  onClick={handleClose}
+                >
+                  View All
+                </NavDropdown.Item>
+              </NavDropdown>
+
+              {/* About */}
               <Nav.Link
                 as={Link}
                 to="/about"
@@ -201,57 +229,83 @@ const navigate = useNavigate();
                 About
               </Nav.Link>
 
-              </Nav>
+            </Nav>
 
-
-{/* Right Side */}
+            {/* Right Side */}
             <div className="navbar-right">
 
-              <Form className="search-box" onSubmit={handleSearch}>
+              {/* Search */}
+              <Form
+                className="search-box"
+                onSubmit={handleSearch}
+              >
+                <FormControl
+                  type="search"
+                  placeholder="Search flowers..."
+                  className="search-input"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                />
 
-  <FormControl
-    type="search"
-    placeholder="Search flowers..."
-    className="search-input"
-    value={search}
-    onChange={(e) => setSearch(e.target.value)}
-  />
+                <Button
+                  type="submit"
+                  className="search-btn"
+                >
+                  <i className="bi bi-search"></i>
+                </Button>
+              </Form>
 
-  <Button type="submit" className="search-btn">
-    <i className="bi bi-search"></i>
-  </Button>
-
-</Form>
-
-
-{/* icons */}
+              {/* Icons */}
               <Nav className="icon-menu">
 
-{/* wishlist icon */}
+                {/* Wishlist */}
                 <Nav.Link
                   as={Link}
                   to="/wishlist"
                   onClick={handleClose}
+                  title="Wishlist"
                 >
                   <i className="bi bi-heart fs-5"></i>
                 </Nav.Link>
 
-
-{/* cart icon */}
+                {/* Cart */}
                 <Nav.Link
                   as={Link}
                   to="/cart"
                   onClick={handleClose}
+                  title="Cart"
                 >
                   <i className="bi bi-cart4 fs-5"></i>
                 </Nav.Link>
 
+                {/* My Orders - NEW */}
+                <Nav.Link
+                  as={Link}
+                  to="/my-orders"
+                  onClick={handleClose}
+                  title="My Orders"
+                >
+                  <i className="bi bi-box-seam fs-5"></i>
+                </Nav.Link>
 
-{/* login icon */}
+                {/* Admin Dashboard */}
+          {user?.role === "admin" && (
+           <Nav.Link
+            as={Link}
+            to="/admin"
+              onClick={handleClose}
+             title="Admin Dashboard"
+            >
+              <i className="bi bi-speedometer2 fs-5"></i>
+            </Nav.Link>
+             )}
+
+                {/* Login */}
                 <Nav.Link
                   as={Link}
                   to="/login"
                   onClick={handleClose}
+                  title="Login"
                 >
                   <i className="bi bi-person fs-5"></i>
                 </Nav.Link>

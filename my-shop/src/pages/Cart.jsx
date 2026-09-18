@@ -1,6 +1,7 @@
 import React from "react";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 import {
   removeFromCart,
@@ -10,6 +11,8 @@ import {
 
 function Cart() {
   const dispatch = useDispatch();
+
+  const navigate = useNavigate();
 
   // Get cart items from Redux
   const cartItems = useSelector((state) => state.cart.items);
@@ -188,6 +191,7 @@ function Cart() {
                 <Button
                   variant="dark"
                   className="w-100"
+                  onClick={() => navigate("/checkout")}
                 >
                   Proceed to Checkout
                 </Button>

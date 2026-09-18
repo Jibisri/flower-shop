@@ -88,10 +88,20 @@ function Login() {
 
       console.log("Login response:", response.data);
 
-      // =========================
-      // LOGIN SUCCESS
-      // =========================
-      setSuccess(true);
+// Save logged-in user
+if (response.data.user) {
+  localStorage.setItem(
+    "user",
+    JSON.stringify(response.data.user)
+  );
+}
+
+// =========================
+// LOGIN SUCCESS
+// =========================
+
+setSuccess(true);
+
       setMessage("Welcome to Florenza! 🌸");
 
       // Save JWT token if backend sends one
@@ -104,6 +114,11 @@ function Login() {
 
       // Go to Home page
       setTimeout(() => {
+        if (response.data.user.role === "admin") {
+          navigate("/admin");
+        } else {
+          navigate("/");
+        }
         navigate("/");
       }, 1000);
     } catch (error) {

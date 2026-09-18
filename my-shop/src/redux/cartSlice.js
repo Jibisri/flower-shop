@@ -75,6 +75,7 @@ const cartSlice = createSlice({
         (item) => item.id === action.payload
       );
 
+
       // Minimum quantity = 1
       if (item && item.quantity > 1) {
         item.quantity -= 1;
@@ -86,6 +87,16 @@ const cartSlice = createSlice({
         JSON.stringify(state.items)
       );
     },
+
+      // Clear entire cart
+          clearCart: (state) => {
+       state.items = [];
+
+
+// Clear cart from localStorage
+        localStorage.removeItem("cartItems");
+        },
+
   },
 });
 
@@ -94,6 +105,7 @@ export const {
   removeFromCart,
   increaseQuantity,
   decreaseQuantity,
+  clearCart,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

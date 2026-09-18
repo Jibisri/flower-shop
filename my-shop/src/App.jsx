@@ -15,7 +15,12 @@ import Register from "./pages/Register";
 import AddProduct from "./pages/AddProduct";
 import EditProduct from "./pages/EditProduct";
 import AdminProducts from "./pages/AdminProducts";
+import Checkout from "./pages/Checkout";
+import MyOrders from "./pages/MyOrders";
+import AdminOrders from "./pages/AdminOrders";
+import AdminDashboard from "./pages/AdminDashboard";
 import Categories from "./components/Categories";
+import AdminRoute from "./components/AdminRoute";
 
 function App() {
   return (
@@ -32,9 +37,15 @@ function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/add-product" element={<AddProduct />} />
-        <Route path="/edit-product/:id" element={<EditProduct />} />
-        <Route path="/admin-products" element={<AdminProducts />} />  
+
+
+        <Route path="/add-product" element={<AdminRoute><AddProduct /> </AdminRoute>} />
+        <Route path="/edit-product/:id" element={<AdminRoute><EditProduct /> </AdminRoute>} />
+        <Route path="/admin-products" element={<AdminRoute><AdminProducts /> </AdminRoute>} />
+        <Route path="/checkout" element={<Checkout />} />  
+        <Route path="/my-orders" element={<MyOrders />} />  
+        <Route path="/admin-orders" element={<AdminRoute><AdminOrders /> </AdminRoute>} />  
+        <Route path="/admin" element={<AdminRoute><AdminDashboard /> </AdminRoute> } />  
       </Routes>
 
       <Footer />
