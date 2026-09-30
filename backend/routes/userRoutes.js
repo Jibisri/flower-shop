@@ -80,14 +80,14 @@ router.post("/login", async (req, res) => {
 
     const cleanEmail = email.trim().toLowerCase();
 
-    console.log("Login email received:", cleanEmail);
+    
 
     // Find user
     const user = await User.findOne({
       email: cleanEmail,
     });
 
-    console.log("User found:", !!user);
+   
 
     if (!user) {
       return res.status(401).json({
@@ -102,14 +102,14 @@ router.post("/login", async (req, res) => {
     );
 
     if (!passwordMatch) {
-      console.log("Password does not match");
+     
 
       return res.status(401).json({
         message: "Invalid email or password",
       });
     }
 
-    console.log("Login successful");
+    
 
     res.status(200).json({
       message: "Login successful",

@@ -21,7 +21,6 @@ function About() {
             {/* Left Side */}
 
             <Col lg={6}>
-
               <h1
                 className="fw-bold mb-4"
                 style={{
@@ -46,70 +45,72 @@ function About() {
               </p>
 
               <Row className="mt-5">
-
                 <Col md={6}>
                   <ul className="list-unstyled">
-
                     <li className="mb-3">
-                      <i className="bi bi-check"></i> Fresh Roses
+                      <i className="bi bi-check"></i>{" "}
+                      Fresh Roses
                     </li>
 
                     <li className="mb-3">
-                      <i className="bi bi-check"></i> Premium Lilies
+                      <i className="bi bi-check"></i>{" "}
+                      Premium Lilies
                     </li>
 
                     <li className="mb-3">
-                      <i className="bi bi-check"></i> Exotic Orchids
+                      <i className="bi bi-check"></i>{" "}
+                      Exotic Orchids
                     </li>
 
                     <li className="mb-3">
-                      <i className="bi bi-check"></i> Fragrant Jasmine
+                      <i className="bi bi-check"></i>{" "}
+                      Fragrant Jasmine
                     </li>
 
                     <li className="mb-3">
-                      <i className="bi bi-check"></i> Pooja Flowers
+                      <i className="bi bi-check"></i>{" "}
+                      Pooja Flowers
                     </li>
-
                   </ul>
                 </Col>
 
                 <Col md={6}>
                   <ul className="list-unstyled">
-
                     <li className="mb-3">
-                      <i className="bi bi-check"></i> Elegant Bouquets
+                      <i className="bi bi-check"></i>{" "}
+                      Elegant Bouquets
                     </li>
 
                     <li className="mb-3">
-                      <i className="bi bi-check"></i> Floral Gifts
+                      <i className="bi bi-check"></i>{" "}
+                      Floral Gifts
                     </li>
 
                     <li className="mb-3">
-                      <i className="bi bi-check"></i> Wedding Flowers
+                      <i className="bi bi-check"></i>{" "}
+                      Wedding Flowers
                     </li>
 
                     <li className="mb-3">
-                      <i className="bi bi-check"></i> Seasonal Flowers
+                      <i className="bi bi-check"></i>{" "}
+                      Seasonal Flowers
                     </li>
 
                     <li className="mb-3">
-                      <i className="bi bi-check"></i> Event Decoration
+                      <i className="bi bi-check"></i>{" "}
+                      Event Decoration
                     </li>
-
                   </ul>
                 </Col>
-
               </Row>
-
             </Col>
 
             {/* Right Side */}
 
             <Col lg={6}>
-
               <img
                 src={flower1}
-                alt=""
+                alt="Fresh flowers"
                 className="img-fluid rounded-5 mb-3"
                 style={{
                   width: "100%",
@@ -119,11 +120,10 @@ function About() {
               />
 
               <Row>
-
                 <Col xs={6}>
                   <img
                     src={flower2}
-                    alt=""
+                    alt="Flower arrangement"
                     className="img-fluid rounded-5"
                     style={{
                       height: "200px",
@@ -136,7 +136,7 @@ function About() {
                 <Col xs={6}>
                   <img
                     src={flower3}
-                    alt=""
+                    alt="Purple rose"
                     className="img-fluid rounded-5"
                     style={{
                       height: "200px",
@@ -145,18 +145,20 @@ function About() {
                     }}
                   />
                 </Col>
-
               </Row>
-
             </Col>
 
           </Row>
         </Container>
       </div>
 
-      <h2 className="ms-5 mt-4" style={{color:"#2b5605c7"}}>
-        <i class="bi bi-arrow-right"></i>
-        Contact us</h2>
+      <h2
+        className="ms-5 mt-4"
+        style={{ color: "#2b5605c7" }}
+      >
+        <i className="bi bi-arrow-right"></i>{" "}
+        Contact us
+      </h2>
 
       <Contact />
     </>

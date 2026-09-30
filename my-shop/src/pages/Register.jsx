@@ -1,7 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-
 import {
   Container,
   Row,
@@ -20,34 +19,25 @@ function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
   const [message, setMessage] = useState("");
   const [success, setSuccess] = useState(false);
 
-  // =========================
-  // EMAIL VALIDATION
-  // =========================
   const validateEmail = (email) => {
     const regex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.com$/;
     return regex.test(email);
   };
 
-  // =========================
-  // REGISTER
-  // =========================
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     setMessage("");
     setSuccess(false);
 
-    // Name validation
     if (name.trim() === "") {
       setMessage("Name is required.");
       return;
     }
 
-    // Email validation
     if (!validateEmail(email)) {
       setMessage(
         "Enter a valid email (lowercase only, must contain @ and .com)."
@@ -55,27 +45,21 @@ function Register() {
       return;
     }
 
-    // Password validation
     if (password.trim() === "") {
       setMessage("Password is required.");
       return;
     }
 
-    // Password length
     if (password.length < 6) {
       setMessage("Password must be at least 6 characters.");
       return;
     }
 
-    // Confirm password
     if (password !== confirmPassword) {
       setMessage("Passwords do not match.");
       return;
     }
 
-    // =========================
-    // SEND TO BACKEND
-    // =========================
     try {
       const response = await axios.post(
         "http://localhost:5000/api/users/register",
@@ -86,18 +70,14 @@ function Register() {
         }
       );
 
-      console.log("Register response:", response.data);
-
       setSuccess(true);
       setMessage("Registration successful! 🌸");
 
-      // Clear form
       setName("");
       setEmail("");
       setPassword("");
       setConfirmPassword("");
 
-      // Go to Login
       setTimeout(() => {
         navigate("/login");
       }, 1500);
@@ -118,9 +98,6 @@ function Register() {
     }
   };
 
-  // =========================
-  // UI
-  // =========================
   return (
     <Container
       fluid
@@ -134,8 +111,6 @@ function Register() {
         <Col md={6} lg={4}>
           <Card className="shadow-lg border-0 rounded-4">
             <Card.Body className="p-5">
-
-              {/* Heading */}
               <div className="text-center mb-4">
                 <h2
                   style={{
@@ -152,17 +127,13 @@ function Register() {
                 </p>
               </div>
 
-              {/* Message */}
               {message && (
                 <Alert variant={success ? "success" : "danger"}>
                   {message}
                 </Alert>
               )}
 
-              {/* Form */}
               <Form onSubmit={handleSubmit}>
-
-                {/* Name */}
                 <Form.Group className="mb-3">
                   <Form.Label>Name</Form.Label>
 
@@ -182,7 +153,6 @@ function Register() {
                   </InputGroup>
                 </Form.Group>
 
-                {/* Email */}
                 <Form.Group className="mb-3">
                   <Form.Label>Email Address</Form.Label>
 
@@ -204,7 +174,6 @@ function Register() {
                   </InputGroup>
                 </Form.Group>
 
-                {/* Password */}
                 <Form.Group className="mb-3">
                   <Form.Label>Password</Form.Label>
 
@@ -224,11 +193,8 @@ function Register() {
                   </InputGroup>
                 </Form.Group>
 
-                {/* Confirm Password */}
                 <Form.Group className="mb-4">
-                  <Form.Label>
-                    Confirm Password
-                  </Form.Label>
+                  <Form.Label>Confirm Password</Form.Label>
 
                   <InputGroup>
                     <InputGroup.Text>
@@ -246,7 +212,6 @@ function Register() {
                   </InputGroup>
                 </Form.Group>
 
-                {/* Register Button */}
                 <Button
                   type="submit"
                   className="w-100"
@@ -258,11 +223,9 @@ function Register() {
                   Register
                 </Button>
 
-                {/* Login */}
                 <div className="text-center mt-4">
                   <p>
                     Already have an account?{" "}
-
                     <Link
                       to="/login"
                       className="text-decoration-none fw-bold"
@@ -274,7 +237,6 @@ function Register() {
                     </Link>
                   </p>
                 </div>
-
               </Form>
             </Card.Body>
           </Card>

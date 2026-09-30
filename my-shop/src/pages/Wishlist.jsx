@@ -2,28 +2,22 @@ import React from "react";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 
-import {
-  removeFromWishlist,
-} from "../redux/wishlistSlice";
-
+import { removeFromWishlist } from "../redux/wishlistSlice";
 import { addToCart } from "../redux/cartSlice";
 
 function Wishlist() {
   const dispatch = useDispatch();
 
-  // Get wishlist items from Redux
   const wishlistItems = useSelector(
     (state) => state.wishlist.items
   );
 
-  // Add wishlist item to cart
   const handleAddToCart = (item) => {
     dispatch(addToCart(item));
   };
 
   return (
     <Container className="mt-5 mb-5">
-
       <h1
         className="text-center mb-5"
         style={{
@@ -37,7 +31,6 @@ function Wishlist() {
 
       {wishlistItems.length === 0 ? (
         <div className="text-center">
-
           <i
             className="bi bi-heart"
             style={{
@@ -53,13 +46,12 @@ function Wishlist() {
           <p className="text-muted">
             Add your favorite flowers to your wishlist.
           </p>
-
         </div>
       ) : (
         <Row>
-
           {wishlistItems.map((item) => (
             <Col
+              xs={6}
               md={4}
               className="mb-4"
               key={item.id}
@@ -68,15 +60,14 @@ function Wishlist() {
                 className="shadow border-0 h-100"
                 style={{
                   borderRadius: "15px",
+                  overflow: "hidden",
                 }}
               >
-
-                {/* Product Image */}
-
                 <Card.Img
                   variant="top"
                   src={item.image}
                   alt={item.name}
+                  className="wishlist-image"
                   style={{
                     height: "260px",
                     objectFit: "cover",
@@ -86,54 +77,38 @@ function Wishlist() {
                 />
 
                 <Card.Body className="text-center">
-
-                  {/* Product Name */}
-
-                  <Card.Title>
+                  <Card.Title className="wishlist-card-title">
                     {item.name}
                   </Card.Title>
 
-                  {/* Price */}
-
-                  <h5 className="text-success mb-3">
+                  <h5 className="text-success mb-3 wishlist-price">
                     {item.price}
                   </h5>
 
-                  {/* Add To Cart */}
-
                   <Button
                     variant="dark"
-                    className="me-2"
-                    onClick={() =>
-                      handleAddToCart(item)
-                    }
+                    className="me-2 wishlist-card-button"
+                    onClick={() => handleAddToCart(item)}
                   >
                     <i className="bi bi-cart-plus"></i>{" "}
                     Add to Cart
                   </Button>
 
-                  {/* Remove Wishlist */}
-
                   <Button
                     variant="outline-danger"
+                    className="wishlist-card-button"
                     onClick={() =>
-                      dispatch(
-                        removeFromWishlist(item.id)
-                      )
+                      dispatch(removeFromWishlist(item.id))
                     }
                   >
                     <i className="bi bi-trash"></i>
                   </Button>
-
                 </Card.Body>
-
               </Card>
             </Col>
           ))}
-
         </Row>
       )}
-
     </Container>
   );
 }

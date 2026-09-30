@@ -18,8 +18,6 @@ function Hero() {
     >
       <Container>
         <Row className="align-items-center">
-
-          {/* Left Side */}
           <Col md={6}>
             <h1
               className="fw-bold display-3"
@@ -45,8 +43,8 @@ function Hero() {
             </p>
 
             <Button
-            as={Link}
-            to="/shop"
+              as={Link}
+              to="/shop"
               size="lg"
               style={{
                 background: "#580a79",
@@ -57,15 +55,11 @@ function Hero() {
                 boxShadow: "0 4px 12px rgba(123,31,162,0.3)",
               }}
             >
-              Shop Now <i class="bi bi-arrow-right"></i>
-              <shop/>
+              Shop Now <i className="bi bi-arrow-right"></i>
             </Button>
-            
           </Col>
 
-          {/* Right Side - remove image because flowers are already in background */}
           <Col md={6}></Col>
-
         </Row>
       </Container>
     </div>

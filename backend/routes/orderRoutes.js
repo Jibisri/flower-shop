@@ -15,6 +15,7 @@ router.post("/", async (req, res) => {
       items,
       totalAmount,
       shippingAddress,
+      deliveryDate,
       paymentMethod,
     } = req.body;
 
@@ -42,13 +43,10 @@ router.post("/", async (req, res) => {
       }
     }
 
+
     // Reduce stock
 for (const item of items) {
-  console.log("========== STOCK UPDATE ==========");
-  console.log("Product ID:", item.product);
-  console.log("Quantity:", item.quantity);
-
-  const updatedProduct = await Product.findByIdAndUpdate(
+  await Product.findByIdAndUpdate(
     item.product,
     {
       $inc: {
@@ -59,18 +57,26 @@ for (const item of items) {
       new: true,
     }
   );
-
-  console.log("Updated Product:", updatedProduct);
 }
 
-    // Create order
-    const order = await Order.create({
-      user,
-      items,
-      totalAmount,
-      shippingAddress,
-      paymentMethod,
-    });
+
+   // Create order
+const order = await Order.create({
+  user,
+  items,
+  totalAmount,
+  shippingAddress,
+  deliveryDate,
+  paymentMethod,
+
+  // Initial order status history
+  statusHistory: [
+    {
+      status: "Pending",
+      date: new Date(),
+    },
+  ],
+});
 
     res.status(201).json({
       message: "Order placed successfully",
@@ -161,17 +167,13 @@ router.get("/:id", async (req, res) => {
 });
 
 // ========================================
-// PUT - Update Order Status
+// PUT - Update Order Status + History
 // ========================================
 router.put("/:id", async (req, res) => {
   try {
     const { orderStatus } = req.body;
 
-    const order = await Order.findByIdAndUpdate(
-      req.params.id,
-      { orderStatus },
-      { new: true }
-    );
+    const order = await Order.findById(req.params.id);
 
     if (!order) {
       return res.status(404).json({
@@ -179,19 +181,46 @@ router.put("/:id", async (req, res) => {
       });
     }
 
+    // Add delivery date for old orders if missing
+    const deliveryDate = order.deliveryDate || new Date();
+
+    // Add status history
+    const historyEntry = {
+      status: orderStatus,
+      date: new Date(),
+    };
+
+    // Update directly in MongoDB
+    await Order.updateOne(
+      { _id: req.params.id },
+      {
+        $set: {
+          orderStatus: orderStatus,
+          deliveryDate: deliveryDate,
+        },
+        $push: {
+          statusHistory: historyEntry,
+        },
+      }
+    );
+
+    // Get updated order
+    const updatedOrder = await Order.findById(req.params.id)
+      .populate("user")
+      .populate("items.product");
+
     res.status(200).json({
       message: "Order status updated successfully",
-      order,
+      order: updatedOrder,
     });
 
   } catch (error) {
-    console.error("UPDATE ORDER ERROR:", error);
+    console.error("UPDATE STATUS ERROR:", error);
 
     res.status(500).json({
-      message: "Failed to update order",
+      message: "Failed to update order status",
       error: error.message,
     });
   }
 });
-
 module.exports = router;

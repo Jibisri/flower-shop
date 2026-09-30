@@ -1,6 +1,14 @@
 import React, { useState } from "react";
-import { Container, Row, Col, Card, Form, Button, Alert } from "react-bootstrap";
-import { useSelector,useDispatch } from "react-redux";
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  Form,
+  Button,
+  Alert,
+} from "react-bootstrap";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { clearCart } from "../redux/cartSlice";
@@ -12,12 +20,14 @@ function Checkout() {
   const cartItems = useSelector((state) => state.cart.items);
 
   const [shippingAddress, setShippingAddress] = useState("");
-  const [paymentMethod, setPaymentMethod] = useState("Cash on Delivery");
+  const [deliveryDate, setDeliveryDate] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState(
+    "Cash on Delivery"
+  );
   const [message, setMessage] = useState("");
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // Calculate total
   const totalPrice = cartItems.reduce((total, item) => {
     const price = Number(
       String(item.price).replace("₹", "").trim()
@@ -26,17 +36,12 @@ function Checkout() {
     return total + price * (item.quantity || 1);
   }, 0);
 
-  // =========================
-  // PLACE ORDER
-  // =========================
-
   const handlePlaceOrder = async (e) => {
     e.preventDefault();
 
     setMessage("");
     setSuccess(false);
 
-    // Get logged-in user
     const savedUser = localStorage.getItem("user");
 
     if (!savedUser) {
@@ -46,31 +51,23 @@ function Checkout() {
 
     const user = JSON.parse(savedUser);
 
-    // Check cart
     if (cartItems.length === 0) {
       setMessage("Your cart is empty.");
       return;
     }
 
-    // Check address
     if (!shippingAddress.trim()) {
       setMessage("Please enter your shipping address.");
       return;
     }
 
+    if (!deliveryDate) {
+      setMessage("Please select a delivery date.");
+      return;
+    }
+
     try {
       setLoading(true);
-
-      // Prepare order items
-
-      console.log("CART ITEMS:", cartItems);
-
-      cartItems.forEach((item) => {
-     console.log("Product ID:", item.id);
-     console.log("Product Name:", item.name);
-      console.log("Quantity:", item.quantity);
-       });
-
 
       const orderItems = cartItems.map((item) => ({
         product: item.id,
@@ -80,9 +77,6 @@ function Checkout() {
         ),
       }));
 
-      console.log("ORDER ITEMS:", orderItems);
-
-      // Send order to backend
       const response = await axios.post(
         "http://localhost:5000/api/orders",
         {
@@ -90,11 +84,10 @@ function Checkout() {
           items: orderItems,
           totalAmount: totalPrice,
           shippingAddress: shippingAddress.trim(),
+          deliveryDate: deliveryDate,
           paymentMethod: paymentMethod,
         }
       );
-
-      console.log("Order response:", response.data);
 
       setSuccess(true);
       setMessage("Order placed successfully! 🌸");
@@ -104,7 +97,6 @@ function Checkout() {
       setTimeout(() => {
         navigate("/");
       }, 2000);
-
     } catch (error) {
       console.error("Order error:", error);
 
@@ -126,7 +118,6 @@ function Checkout() {
 
   return (
     <Container className="py-5">
-
       <h2
         className="text-center mb-5"
         style={{ color: "purple" }}
@@ -144,12 +135,9 @@ function Checkout() {
       )}
 
       <Row>
-
-        {/* Shipping Details */}
         <Col md={7}>
           <Card className="shadow-sm border-0">
             <Card.Body>
-
               <h4
                 className="mb-4"
                 style={{ color: "purple" }}
@@ -158,11 +146,8 @@ function Checkout() {
               </h4>
 
               <Form onSubmit={handlePlaceOrder}>
-
                 <Form.Group className="mb-4">
-                  <Form.Label>
-                    Shipping Address
-                  </Form.Label>
+                  <Form.Label>Shipping Address</Form.Label>
 
                   <Form.Control
                     as="textarea"
@@ -177,15 +162,30 @@ function Checkout() {
                 </Form.Group>
 
                 <Form.Group className="mb-4">
-                  <Form.Label>
-                    Payment Method
-                  </Form.Label>
+                  <Form.Label>Choose Delivery Date</Form.Label>
+
+                  <Form.Control
+                    type="date"
+                    value={deliveryDate}
+                    onChange={(e) =>
+                      setDeliveryDate(e.target.value)
+                    }
+                    min={new Date()
+                      .toISOString()
+                      .split("T")[0]}
+                    required
+                  />
+                </Form.Group>
+
+                <Form.Group className="mb-4">
+                  <Form.Label>Payment Method</Form.Label>
 
                   <Form.Select
                     value={paymentMethod}
                     onChange={(e) =>
                       setPaymentMethod(e.target.value)
                     }
+                    className="payment-select"
                   >
                     <option>Cash on Delivery</option>
                     <option>UPI</option>
@@ -199,21 +199,18 @@ function Checkout() {
                   className="w-100"
                   disabled={loading}
                 >
-                  {loading ? "Placing Order..." : "Place Order"}
+                  {loading
+                    ? "Placing Order..."
+                    : "Place Order"}
                 </Button>
-
               </Form>
-
             </Card.Body>
           </Card>
         </Col>
 
-        {/* Order Summary */}
         <Col md={5} className="mt-4 mt-md-0">
-
           <Card className="shadow border-0">
             <Card.Body>
-
               <h4
                 className="mb-4"
                 style={{ color: "purple" }}
@@ -252,14 +249,10 @@ function Checkout() {
                   ₹{totalPrice.toFixed(2)}
                 </h5>
               </div>
-
             </Card.Body>
           </Card>
-
         </Col>
-
       </Row>
-
     </Container>
   );
 }

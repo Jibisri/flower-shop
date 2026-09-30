@@ -6,7 +6,6 @@ function AdminProducts() {
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
 
-  // Get all products
   const fetchProducts = async () => {
     try {
       const response = await axios.get(
@@ -23,7 +22,6 @@ function AdminProducts() {
     fetchProducts();
   }, []);
 
-  // Delete product
   const handleDelete = async (id) => {
     const confirmDelete = window.confirm(
       "Are you sure you want to delete this product?"
@@ -42,17 +40,14 @@ function AdminProducts() {
 
       fetchProducts();
     } catch (error) {
-      console.error("DELETE PRODUCT ERROR:", error);
-
+      console.error("Delete product error:", error);
       alert("Failed to delete product.");
     }
   };
 
   return (
     <div className="container mt-5">
-
       <div className="d-flex justify-content-between align-items-center mb-4">
-
         <h2>Admin Product Management</h2>
 
         <button
@@ -61,7 +56,6 @@ function AdminProducts() {
         >
           + Add Product
         </button>
-
       </div>
 
       {products.length === 0 ? (
@@ -87,8 +81,6 @@ function AdminProducts() {
             </p>
 
             <div>
-
-              {/* Edit */}
               <button
                 className="btn btn-warning me-2"
                 onClick={() =>
@@ -98,7 +90,6 @@ function AdminProducts() {
                 Edit
               </button>
 
-              {/* Delete */}
               <button
                 className="btn btn-danger"
                 onClick={() =>
@@ -107,13 +98,10 @@ function AdminProducts() {
               >
                 Delete
               </button>
-
             </div>
-
           </div>
         ))
       )}
-
     </div>
   );
 }

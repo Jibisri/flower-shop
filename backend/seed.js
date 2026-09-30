@@ -95,14 +95,14 @@ const products = [
   {
     name: "Sevanthi",
     price: 599,
-    category: "pooja",
+    category: "Pooja Flowers",
     stock: 10,
     image: "Sevanthi",
   },
   {
     name: "White Sevanthi",
     price: 499,
-    category: "pooja",
+    category: "Pooja Flowers",
     stock: 10,
     image: "White Sevanthi",
   },
@@ -115,15 +115,13 @@ const seedProducts = async () => {
     console.log("MongoDB connected");
 
     await Product.deleteMany();
-
     await Product.insertMany(products);
 
     console.log("Products added successfully");
 
     await mongoose.connection.close();
   } catch (error) {
-    console.error("MongoDB connection failed:");
-    console.error(error.message);
+    console.error("MongoDB connection failed:", error.message);
   }
 };
 

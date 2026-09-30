@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-
 import {
   Container,
   Row,
@@ -22,9 +21,6 @@ function Login() {
   const [message, setMessage] = useState("");
   const [success, setSuccess] = useState(false);
 
-  // =========================
-  // LOAD REMEMBERED EMAIL
-  // =========================
   useEffect(() => {
     const savedEmail = localStorage.getItem("rememberEmail");
 
@@ -34,24 +30,17 @@ function Login() {
     }
   }, []);
 
-  // =========================
-  // EMAIL VALIDATION
-  // =========================
   const validateEmail = (email) => {
     const regex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.com$/;
     return regex.test(email);
   };
 
-  // =========================
-  // LOGIN
-  // =========================
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     setMessage("");
     setSuccess(false);
 
-    // Email validation
     if (!validateEmail(email)) {
       setMessage(
         "Enter a valid email (lowercase only, must contain @ and .com)."
@@ -59,24 +48,17 @@ function Login() {
       return;
     }
 
-    // Password validation
     if (password.trim() === "") {
       setMessage("Password is required.");
       return;
     }
 
-    // =========================
-    // REMEMBER EMAIL
-    // =========================
     if (rememberMe) {
       localStorage.setItem("rememberEmail", email);
     } else {
       localStorage.removeItem("rememberEmail");
     }
 
-    // =========================
-    // SEND LOGIN TO BACKEND
-    // =========================
     try {
       const response = await axios.post(
         "http://localhost:5000/api/users/login",
@@ -86,40 +68,28 @@ function Login() {
         }
       );
 
-      console.log("Login response:", response.data);
+      if (response.data.user) {
+        localStorage.setItem(
+          "user",
+          JSON.stringify(response.data.user)
+        );
+      }
 
-// Save logged-in user
-if (response.data.user) {
-  localStorage.setItem(
-    "user",
-    JSON.stringify(response.data.user)
-  );
-}
-
-// =========================
-// LOGIN SUCCESS
-// =========================
-
-setSuccess(true);
-
+      setSuccess(true);
       setMessage("Welcome to Florenza! 🌸");
 
-      // Save JWT token if backend sends one
       if (response.data.token) {
         localStorage.setItem("token", response.data.token);
       }
 
-      // Clear password
       setPassword("");
 
-      // Go to Home page
       setTimeout(() => {
         if (response.data.user.role === "admin") {
           navigate("/admin");
         } else {
           navigate("/");
         }
-        navigate("/");
       }, 1000);
     } catch (error) {
       console.error("Login error:", error);
@@ -138,9 +108,6 @@ setSuccess(true);
     }
   };
 
-  // =========================
-  // UI
-  // =========================
   return (
     <Container
       fluid
@@ -154,8 +121,6 @@ setSuccess(true);
         <Col md={6} lg={4}>
           <Card className="shadow-lg border-0 rounded-4">
             <Card.Body className="p-5">
-
-              {/* Heading */}
               <div className="text-center mb-4">
                 <h2
                   style={{
@@ -172,21 +137,15 @@ setSuccess(true);
                 </p>
               </div>
 
-              {/* Message */}
               {message && (
                 <Alert variant={success ? "success" : "danger"}>
                   {message}
                 </Alert>
               )}
 
-              {/* Login Form */}
               <Form onSubmit={handleSubmit}>
-
-                {/* Email */}
                 <Form.Group className="mb-3">
-                  <Form.Label>
-                    Email Address
-                  </Form.Label>
+                  <Form.Label>Email Address</Form.Label>
 
                   <InputGroup>
                     <InputGroup.Text>
@@ -206,11 +165,8 @@ setSuccess(true);
                   </InputGroup>
                 </Form.Group>
 
-                {/* Password */}
                 <Form.Group className="mb-3">
-                  <Form.Label>
-                    Password
-                  </Form.Label>
+                  <Form.Label>Password</Form.Label>
 
                   <InputGroup>
                     <InputGroup.Text>
@@ -228,9 +184,7 @@ setSuccess(true);
                   </InputGroup>
                 </Form.Group>
 
-                {/* Remember Me + Forgot Password */}
                 <div className="d-flex justify-content-between align-items-center mb-4">
-
                   <Form.Check
                     type="checkbox"
                     label="Remember Me"
@@ -249,10 +203,8 @@ setSuccess(true);
                   >
                     Forgot Password?
                   </Link>
-
                 </div>
 
-                {/* Login Button */}
                 <Button
                   type="submit"
                   className="w-100"
@@ -264,11 +216,9 @@ setSuccess(true);
                   Login
                 </Button>
 
-                {/* Register */}
                 <div className="text-center mt-4">
                   <p>
                     Don't have an account?{" "}
-
                     <Link
                       to="/register"
                       className="text-decoration-none fw-bold"
@@ -278,10 +228,8 @@ setSuccess(true);
                     >
                       Register
                     </Link>
-
                   </p>
                 </div>
-
               </Form>
             </Card.Body>
           </Card>

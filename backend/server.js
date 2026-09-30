@@ -4,8 +4,7 @@ const mongoose = require("mongoose");
 const dns = require("dns");
 
 require("dotenv").config();
-
-dns.setServers(["8.8.8.8", "1.1.1.1"]);
+dns.setServers(["8.8.8.8", "1.1.1.1"]); // Set DNS servers to Google and Cloudflare1
 
 const productRoutes = require("./routes/productRoutes");
 const userRoutes = require("./routes/userRoutes");

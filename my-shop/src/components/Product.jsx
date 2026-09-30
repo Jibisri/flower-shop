@@ -1,73 +1,78 @@
-import React from "react";
-import axios from "axios";
-import { useEffect, useState } from "react";
 
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { Row, Col, Card, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-// Redux
 import { addToCart } from "../redux/cartSlice";
 import {
   addToWishlist,
   removeFromWishlist,
 } from "../redux/wishlistSlice";
 
-// =========================
-// PRODUCT IMAGES
-// =========================
-
-// Bouquet flowers
 import flower1 from "../assets/flower-1.png";
-import flower2 from "../assets/flower-2.png";
 import flower3 from "../assets/flower-3.jpg";
-import red1 from "../assets/red-1.jpg";
 
-// Sunflowers
+import red2 from "../assets/red-2.webp";
+
 import yellow2 from "../assets/yellow-2.webp";
 import yellow1 from "../assets/yellow-1.webp";
 
-// Fresh flowers
 import white1 from "../assets/fresh-white.webp";
+import redrose from "../assets/fresh-red.jpg";
 import pink1 from "../assets/fresh-pink.jpg";
-import red2 from "../assets/fresh-red.jpg";
 
-// Orchids
 import orchid1 from "../assets/orchid-blue.jpg";
 import orchid2 from "../assets/mix-orchid.jpg";
+import orchid3 from "../assets/orchid-home.jpg";
 
-// Pink bouquet
 import pinkBouquet from "../assets/pink-boq.jpg";
 
-// Sevanthi
 import sev2 from "../assets/sev-2.webp";
 import sev1 from "../assets/sev-white.webp";
 
-// Loose flower
-import looseFlower from "../assets/loose flower.jpg";
+import looseflower from "../assets/loose flower.jpg";
+import rosepetal from "../assets/petal-1.webp";
+import Poojapetal from "../assets/petal-2.jpg";
 
-// =========================
-// IMAGE MAP
-// =========================
+import garland2 from "../assets/garland-2.webp";
+import garland from "../assets/garlands.webp";
+import garland1 from "../assets/garlands-1.jpg";
+import orchidgarland from "../assets/orchid garland.png";
 
-const imageMap = {
-  "Purple Orchid Bouquet": flower1,
-  "Rose Bouquet": flower2,
-  "Mixed Flower Basket": flower3,
-  "Red Roses Bouquet": red1,
+import pooja1 from "../assets/pooja-1.jpg";
+import pooja2 from "../assets/pooja-2.jpg";
 
-  "Loose Flower": looseFlower,
-  "loose flower": looseFlower,
 
-  "Yellow Sunflowers": yellow2,
-  "Sunflowers Bunch": yellow1,
+ const imageMap = {
+  "Orchid Bouquet": orchid3,
+  "Rose Bouquet": flower3,
+  "Purple Sevanthi": flower1,
+  "Red Roses Bouquet": red2,
 
-  "White Lilies": white1,
-  "Pink Peonies": pink1,
-  "Red Roses": red2,
+  "Yellow Roses Bouquet": yellow2,
+  "Yellow Bouquet": yellow1,
+
+  "White Roses": white1,
+  "Pink Roses": pink1,
+
+  "Red Roses": redrose,
 
   "Blue Orchid": orchid1,
   "Mixed Orchids": orchid2,
+
+  "Loose Flower": looseflower,
+  "Rose Petals": rosepetal,
+  "Loose Flowers": Poojapetal,
+
+  "Pooja Garlands": garland,
+  "Garland Pink & White": garland1,
+  "Rose Garland": garland2,
+  "Orchid Garland": orchidgarland,
+
+  "Marigold": pooja1,
+  "Pooja Flowers": pooja2,
 
   "Pink Bouquet": pinkBouquet,
 
@@ -75,39 +80,36 @@ const imageMap = {
   "White Sevanthi": sev1,
 };
 
-// =========================
-// PRODUCT COMPONENT
-// =========================
-
-function Product({ search, category }) {
+function Product({ search, category, occasion, product }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const savedUser = localStorage.getItem("user");
-const user = savedUser ? JSON.parse(savedUser) : null;
-
   const [products, setProducts] = useState([]);
 
-  // =========================
-  // GET PRODUCTS FROM BACKEND
-  // =========================
+  const savedUser = localStorage.getItem("user");
+  const user = savedUser ? JSON.parse(savedUser) : null;
+
+  const wishlistItems = useSelector(
+    (state) => state.wishlist.items
+  );
+
+  const cartItems = useSelector(
+    (state) => state.cart.items
+  );
 
   useEffect(() => {
-    console.log("Calling backend...");
-
     axios
       .get("http://localhost:5000/api/products")
       .then((response) => {
-        console.log("Backend response:", response.data);
-
-        const backendProducts = response.data.map((product) => ({
-          ...product,
-          id: product._id,
-          image: imageMap[product.name],
-          price: `₹${product.price}`,
-        }));
-
-        console.log("Products for frontend:", backendProducts);
+        const backendProducts = response.data.map(
+          (product) => ({
+            ...product,
+            id: product._id,
+            image:
+              imageMap[product.name.trim()] || flower1,
+            price: `₹${product.price}`,
+          })
+        );
 
         setProducts(backendProducts);
       })
@@ -116,63 +118,14 @@ const user = savedUser ? JSON.parse(savedUser) : null;
       });
   }, []);
 
-  // =========================
-  // GET WISHLIST ITEMS
-  // =========================
-
-  const wishlistItems = useSelector(
-    (state) => state.wishlist.items
-  );
-
-  // =========================
-  // GET CART ITEMS
-  // =========================
-
-  const cartItems = useSelector(
-    (state) => state.cart.items
-  );
-
-  // =========================
-  // SEARCH + CATEGORY FILTER
-  // =========================
-
-  const filteredProducts = products.filter((item) => {
-    const matchesSearch =
-      !search ||
-      item.name
-        .toLowerCase()
-        .includes(search.toLowerCase());
-
-    const matchesCategory =
-      !category ||
-      category === "All" ||
-      item.category === category;
-
-    return matchesSearch && matchesCategory;
-  });
-
-  // =========================
-  // ADD TO CART
-  // =========================
-
-  const handleAddToCart = (item) => {
-    if (item.stock <= 0) {
-      return;
-    }
-
-    dispatch(addToCart(item));
-  };
-
-  // =========================
-  // DELETE PRODUCT
-  // =========================
-
   const handleDelete = async (id) => {
     const confirmDelete = window.confirm(
       "Are you sure you want to delete this product?"
     );
 
-    if (!confirmDelete) return;
+    if (!confirmDelete) {
+      return;
+    }
 
     try {
       await axios.delete(
@@ -192,10 +145,6 @@ const user = savedUser ? JSON.parse(savedUser) : null;
     }
   };
 
-  // =========================
-  // WISHLIST
-  // =========================
-
   const handleWishlist = (item) => {
     const exists = wishlistItems.some(
       (wishlistItem) =>
@@ -209,10 +158,6 @@ const user = savedUser ? JSON.parse(savedUser) : null;
     }
   };
 
-  // =========================
-  // BUY NOW
-  // =========================
-
   const handleBuyNow = (item) => {
     if (item.stock <= 0) {
       return;
@@ -222,231 +167,265 @@ const user = savedUser ? JSON.parse(savedUser) : null;
     navigate("/cart");
   };
 
-  // =========================
-  // UI
-  // =========================
+console.log("Products from API:", products);
+console.log("Filters:", {
+  search,
+  category,
+  occasion,
+  product,
+});
+
+  const filteredProducts = products.filter((item) => {
+    const matchesSearch =
+      !search ||
+      item.name
+        .toLowerCase()
+        .includes(search.toLowerCase());
+
+    const matchesCategory =
+      !category ||
+      category === "All" ||
+      item.category === category;
+
+    const matchesOccasion =
+      !occasion ||
+      item.occasion === occasion;
+
+    const matchesProduct =
+      !product ||
+      item.name === product;
+
+    return (
+      matchesSearch &&
+      matchesCategory &&
+      matchesOccasion &&
+      matchesProduct
+    );
+  });
 
   return (
-    <Row
-      className="g-2"
-      style={{
-        marginLeft: "-8px",
-        marginRight: "-8px",
-      }}
-    >
-      {/* Products Heading */}
+    <div>
+      <h2
+        className="mt-5"
+        style={{
+          color: "#2b5605c7",
+          fontFamily: "Georgia",
+          fontWeight: "bold",
+          textAlign: "center",
+        }}
+      >
+        <i className="bi bi-arrow-right"></i>{" "}
+        Products
+      </h2>
 
-      <Col xs={12}>
-        <h2
-          className="mb-5"
-          style={{
-            color: "#2b5605c7",
-            fontFamily: "Georgia",
-            fontWeight: "bold",
-            marginLeft: "120px",
-          }}
-        >
-          <i className="bi bi-arrow-right"></i>{" "}
-          Products
-        </h2>
-      </Col>
+      <p
+        className="text-center mb-5"
+        style={{
+          color: "#666",
+          fontSize: "clamp(14px, 2vw, 17px)",
+          fontStyle: "italic",
+        }}
+      >
+        <i className="bi bi-stars"></i>{" "}
+        Beautiful blooms, thoughtfully chosen for every
+        special moment.{" "}
+        <i className="bi bi-stars"></i>
+      </p>
 
-      {/* Products */}
+      {filteredProducts.length === 0 ? (
+        <div className="text-center py-5">
+          <i
+            className="bi bi-flower1"
+            style={{
+              fontSize: "50px",
+              color: "#6b077d",
+            }}
+          ></i>
 
-      {filteredProducts.length > 0 ? (
-        filteredProducts.map((item) => {
-          // =========================
-          // WISHLIST CHECK
-          // =========================
+          <h4 className="mt-3">
+            No products found
+          </h4>
 
-          const isWishlist =
-            wishlistItems.some(
+          <p className="text-muted">
+            Try another search, category or occasion.
+          </p>
+        </div>
+      ) : (
+        <Row className="g-4">
+          {filteredProducts.map((item) => {
+            const isWishlisted = wishlistItems.some(
               (wishlistItem) =>
                 wishlistItem.id === item.id
             );
 
-          // =========================
-          // CART CHECK
-          // =========================
-
-          const cartItem =
-            cartItems.find(
-              (cartItem) =>
-                cartItem.id === item.id
+            const cartItem = cartItems.find(
+              (cart) => cart.id === item.id
             );
 
-          return (
-            <Col
-              xs={6}
-              sm={6}
-              lg={3}
-              className="mb-3 px-1"
-              key={item.id}
-            >
-              <Card
-                className="shadow border-0 h-100"
-                style={{
-                  borderRadius: "15px",
-                }}
+            return (
+              <Col
+                xs={6}
+                sm={6}
+                md={4}
+                lg={3}
+                key={item.id}
               >
-                {/* Product Image */}
-
-                <Card.Img
-                  variant="top"
-                  src={item.image}
-                  alt={item.name}
+                <Card
+                  className="h-100 shadow-sm"
                   style={{
-                    height: "clamp(170px, 25vw, 300px)",
-                    width: "100%",
-                    objectFit: "contain",
-                    backgroundColor: "#f8f8f8",
-                    borderTopLeftRadius: "15px",
-                    borderTopRightRadius: "15px",
+                    borderRadius: "15px",
+                    overflow: "hidden",
+                    border: "1px solid #b8b8b8",
                   }}
-                />
-
-                <Card.Body className="text-center">
-                  {/* Product Name */}
-
-                  <Card.Title
+                >
+                  <div
                     style={{
-                      fontSize: "20px",
-                      fontWeight: "500",
-                      marginBottom: "10px",
+                      height: "230px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      background: "#fafafa",
+                      position: "relative",
                     }}
                   >
-                    {item.name}
-                  </Card.Title>
-
-                  {/* Stock Status */}
-
-                  <p
-                    className={
-                      item.stock > 0
-                        ? "text-success mb-2"
-                        : "text-danger mb-2"
-                    }
-                  >
-                    {item.stock > 0
-                      ? `In Stock (${item.stock})`
-                      : "Out of Stock"}
-                  </p>
-
-                  {/* Price */}
-
-                  <h5 className="text-success mb-3">
-                    {item.price}
-                  </h5>
-
-                  {/* Wishlist + Add To Cart */}
-
-                  <div
-                    className="d-flex justify-content-center align-items-center gap-2 mb-2"
-                  >
-                    {/* Wishlist */}
+                    <Card.Img
+                      variant="top"
+                      src={item.image}
+                      alt={item.name}
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "contain",
+                        padding: "10px",
+                      }}
+                    />
 
                     <Button
-                      variant={
-                        isWishlist
-                          ? "danger"
-                          : "outline-danger"
-                      }
-                      style={{
-                        width: "52px",
-                        height: "45px",
-                        padding: "0",
-                      }}
+                      variant="light"
                       onClick={() =>
                         handleWishlist(item)
                       }
+                      style={{
+                        position: "absolute",
+                        top: "10px",
+                        right: "10px",
+                        width: "40px",
+                        height: "40px",
+                        borderRadius: "50%",
+                        border: "none",
+                        boxShadow:
+                          "0 2px 8px rgba(0,0,0,0.15)",
+                      }}
                     >
                       <i
                         className={
-                          isWishlist
+                          isWishlisted
                             ? "bi bi-heart-fill"
                             : "bi bi-heart"
                         }
                         style={{
-                          fontSize: "20px",
+                          color: isWishlisted
+                            ? "red"
+                            : "#555",
+                          fontSize: "18px",
                         }}
                       ></i>
                     </Button>
-
-                    {/* Add To Cart */}
-
-                    <Button
-                      variant={
-                        item.stock === 0
-                          ? "secondary"
-                          : cartItem
-                          ? "success"
-                          : "outline-dark"
-                      }
-                      style={{
-                        height: "45px",
-                        fontSize: "15px",
-                        whiteSpace: "nowrap",
-                      }}
-                      disabled={item.stock === 0}
-                      onClick={() =>
-                        handleAddToCart(item)
-                      }
-                    >
-                      <i className="bi bi-cart-plus"></i>{" "}
-                      {item.stock === 0
-                        ? "Out of Stock"
-                        : cartItem
-                        ? `Added (${cartItem.quantity})`
-                        : "Add to Cart"}
-                    </Button>
                   </div>
 
-                  {/* Buy Now */}
+                  <Card.Body className="d-flex flex-column">
+                    <div>
+                      <Card.Title
+                        className="mb-1"
+                        style={{
+                          fontSize: "20px",
+                          fontWeight: "600",
+                        }}
+                      >
+                        {item.name}
+                      </Card.Title>
 
-                  <Button
-                    variant="dark"
-                    className="w-100"
-                    style={{
-                      height: "45px",
-                      fontSize: "16px",
-                    }}
-                    disabled={item.stock === 0}
-                    onClick={() =>
-                      handleBuyNow(item)
-                    }
-                  >
-                    <i className="bi bi-lightning-fill"></i>{" "}
-                    Buy Now
-                  </Button>
+                      <div
+                        style={{
+                          color: "#6b077d",
+                          fontWeight: "bold",
+                          fontSize: "18px",
+                          textAlign: "left",
+                        }}
+                      >
+                        {item.price}
+                      </div>
+                    </div>
 
-                  {/* Delete Product */}
+                    <small
+                      className="mt-2"
+                      style={{
+                        color:
+                          item.stock > 0
+                            ? "green"
+                            : "red",
+                        fontWeight: "500",
+                      }}
+                    >
+                      {item.stock > 0
+                        ? `In Stock (${item.stock})`
+                        : "Out of Stock"}
+                    </small>
 
-              {user && user.role === "admin" && (
-             <Button
-              variant="danger"
-              className="w-100 mt-2"
-             onClick={() =>
-                handleDelete(item.id)
-                    }
-                  >
-                    <i className="bi bi-trash"></i>{" "}
-                    Delete
-                  </Button>
-                  )}
-                </Card.Body>
-              </Card>
-            </Col>
-          );
-        })
-      ) : (
-        <Col>
-          <h4 className="text-center text-danger">
-            No products found
-          </h4>
-        </Col>
+                    <div className="mt-auto pt-3">
+                      <div className="d-flex gap-2">
+                        <Button
+                          variant="outline-dark"
+                          className="flex-grow-1"
+                          disabled={item.stock <= 0}
+                          onClick={() =>
+                            dispatch(
+                              addToCart(item)
+                            )
+                          }
+                        >
+                          <i className="bi bi-cart-plus"></i>{" "}
+                          {cartItem
+                            ? "Add More"
+                            : "Add Cart"}
+                        </Button>
+
+                        <Button
+                          style={{
+                            backgroundColor: "#6b077d",
+                            border: "none",
+                          }}
+                          disabled={item.stock <= 0}
+                          onClick={() =>
+                            handleBuyNow(item)
+                          }
+                        >
+                          Buy Now
+                        </Button>
+                      </div>
+
+                      {user?.role === "admin" && (
+                        <Button
+                          variant="outline-danger"
+                          className="w-100 mt-2"
+                          onClick={() =>
+                            handleDelete(item.id)
+                          }
+                        >
+                          <i className="bi bi-trash"></i>{" "}
+                          Delete
+                        </Button>
+                      )}
+                    </div>
+                  </Card.Body>
+                </Card>
+              </Col>
+            );
+          })}
+        </Row>
       )}
-    </Row>
+    </div>
   );
-}
 
+}
 export default Product;

@@ -10,6 +10,9 @@ function Shop() {
 
   const search = searchParams.get("search") || "";
   const category = searchParams.get("category") || "";
+  const occasion = searchParams.get("occasion") || "";
+
+const product = searchParams.get("product") || "";
 
   return (
     <Container fluid className="my-5">
@@ -21,7 +24,10 @@ function Shop() {
       <Product
         search={search}
         category={category}
+        occasion={occasion}
+        product={product}
       />
+
 
     </Container>
   );

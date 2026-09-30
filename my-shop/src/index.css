@@ -1,3 +1,5 @@
+
+
 body{
     padding-top:90px;
 }
@@ -108,6 +110,7 @@ body{
 
 
 /* Icons */
+/* ===================================================================== */
 .icon-menu{
     display:flex;
     flex-direction:row;
@@ -133,6 +136,7 @@ body{
 
 
 /* Mobile */
+/* ===================================================================== */
 @media(max-width:991px){
 
     .nav-menu{
@@ -162,7 +166,7 @@ body{
 
 
 /* hero.jsx */
-
+/* ===================================================================== */
 .hero-section button:hover {
   background: #5e0f82 !important;
   transform: translateY(-2px);
@@ -172,7 +176,7 @@ body{
 
 
 /* footer.jsx */
-/* remove the hover effect */
+/* remove the hover effect----------------------------------------------- */
 .footer,
 .footer:hover {
   background: purple;
@@ -195,6 +199,7 @@ body{
 
 
 /* about.jsx */
+/* ===================================================================== */
 
 body {
   overflow-x: hidden;
@@ -222,7 +227,7 @@ body {
 
 
 /* shop,jsx */
-/* category by circle */
+/* category by circle ------------------------------------*/
 
 .category-circle:hover {
   transform: scale(1.08);
@@ -230,7 +235,7 @@ body {
   transition: 0.3s ease;
 }
 
-/* contact.jsx section in home.jsx */
+/* contact.jsx section in home.jsx----------------------- */
 
 .footer-link {
   color: #6c757d;
@@ -247,29 +252,263 @@ body {
 
 /* occasion.jsx */
 
-/* Tablet */
-@media (max-width: 991px) {
-  .occasion-item {
-  flex: 0 0 20% !important;
-  max-width: 20% !important;
-  padding: 8px;
-}
+/* Occasion → Products spacing on mobile---------------------------------------- */
+/* ================= OCCASION SPACING ================= */
+
+/* ============================= */
+/* SHOP BY OCCASION */
+/* ============================= */
+
+.occasion-section {
+  background-color: #faf7ff;
+  padding: 45px 0;
+  margin-top: 30px;
+  width: 100%;
 }
 
-/* Mobile */
-@media (max-width: 576px) {
-  .occasion-item {
-    flex: 0 0 20% !important;
-    max-width: 20% !important;
-    padding: 3px !important;
+/* ============================= */
+/* HEADING */
+/* ============================= */
+
+.occasion-heading {
+  color: #2b5605c7;
+  font-family: Georgia, serif;
+  font-weight: bold;
+  font-size: clamp(24px, 4vw, 34px);
+  margin-bottom: 8px;
+}
+
+.occasion-subtitle {
+  color: #666;
+  font-size: clamp(14px, 2vw, 17px);
+  margin-bottom: 0;
+}
+
+/* ============================= */
+/* CAROUSEL WRAPPER */
+/* ============================= */
+
+.occasion-carousel-wrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ============================= */
+/* CAROUSEL */
+/* ============================= */
+
+.occasion-carousel-container {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ============================= */
+/* BOOTSTRAP ROW */
+/* ============================= */
+
+.occasion-row {
+  width: 100%;
+  margin: 0;
+}
+
+/* ============================= */
+/* BOOTSTRAP COLUMN */
+/* ============================= */
+
+.occasion-col {
+  text-align: center;
+  padding: 8px 20px;
+  cursor: pointer;
+}
+
+/* ============================= */
+/* CIRCLE */
+/* ============================= */
+
+.occasion-circle {
+  width: clamp(80px, 13vw, 140px);
+  height: clamp(80px, 13vw, 140px);
+
+  margin: 0 auto;
+
+  background-color: #f8e9ff;
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+
+  transition: 0.3s ease;
+}
+
+/* ============================= */
+/* ICON */
+/* ============================= */
+
+.occasion-circle i {
+  font-size: clamp(30px, 5vw, 55px);
+  color: #7b1fa2;
+}
+
+/* ============================= */
+/* TEXT */
+/* ============================= */
+
+.occasion-title {
+  color: #7b1fa2;
+  font-weight: 600;
+  font-size: clamp(11px, 1.5vw, 17px);
+
+  margin-top: 12px;
+  margin-bottom: 0;
+
+  line-height: 1.2;
+}
+
+/* ============================= */
+/* HOVER */
+/* ============================= */
+
+.occasion-col:hover .occasion-circle {
+  transform: scale(1.08);
+  box-shadow: 0 6px 18px rgba(123, 31, 162, 0.25);
+}
+
+.occasion-col:hover .occasion-title {
+  color: #5e1680;
+}
+
+/* ============================= */
+/* ARROWS */
+/* ============================= */
+
+.occasion-arrow {
+  flex: 0 0 42px;
+
+  width: 42px;
+  height: 42px;
+
+  border: none;
+  border-radius: 50%;
+
+  background-color: white;
+  color: #7b1fa2;
+
+  font-size: 22px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+
+  z-index: 5;
+
+  transition: 0.2s ease;
+}
+
+.occasion-arrow:hover {
+  background-color: #f8e9ff;
+  transform: scale(1.05);
+}
+
+
+/* ============================= */
+/* TABLET */
+/* ============================= */
+
+@media (max-width: 991px) {
+
+  .occasion-section {
+    padding: 40px 0;
+  }
+
+  .occasion-col {
+    padding: 6px 14px;
+  }
+
+  .occasion-circle {
+    width: 80px;
+    height: 80px;
+  }
+
+  .occasion-circle i {
+    font-size: 32px;
+  }
+
+  .occasion-title {
+    font-size: 12px;
   }
 }
 
 
+/* ============================= */
+/* MOBILE */
+/* ============================= */
+
+@media (max-width: 576px) {
+
+  .occasion-section {
+    padding: 30px 0;
+    margin-top: 20px;
+  }
+
+  .occasion-heading {
+    font-size: 24px;
+  }
+
+  .occasion-subtitle {
+    font-size: 13px;
+    padding: 0 15px;
+  }
+
+  .occasion-carousel-wrapper {
+    gap: 4px;
+  }
+
+  .occasion-arrow {
+    flex: 0 0 32px;
+
+    width: 32px;
+    height: 32px;
+
+    font-size: 17px;
+  }
+
+  .occasion-col {
+    padding: 3px 5px;
+  }
+
+  .occasion-circle {
+    width: 55px;
+    height: 55px;
+  }
+
+  .occasion-circle i {
+    font-size: 25px;
+  }
+
+  .occasion-title {
+    font-size: 9px;
+    line-height: 1.15;
+
+    margin-top: 7px;
+
+    min-height: 25px;
+
+    overflow-wrap: break-word;
+  }
+}
 /* category.jsx */
 
 /* =========================
-   SHOP BY CATEGORY
+   SHOP BY CATEGORY-------------------------------------------------------
 ========================= */
 
 .category-row {
@@ -346,99 +585,112 @@ body {
 
 
 /* BestSeller.jsx */
-/* =========================
-   BEST SELLERS
-========================= */
+/* best seller------------------------------------------------------------- */
+/* ================================
+   BEST SELLER
+================================ */
 
 .best-seller-row {
+  width: 100%;
   display: flex;
   flex-wrap: nowrap;
-  width: 100%;
   margin: 0;
   padding: 0;
 }
 
-.best-seller-item {
-  flex: 0 0 20%;
-  max-width: 20%;
-  text-align: center;
-  padding: 8px;
-}
-
-.best-seller-circle {
-  width: clamp(80px, 13vw, 140px);
-  height: clamp(80px, 13vw, 140px);
-
-  margin: auto;
-
-  border-radius: 50%;
-  overflow: hidden;
-
-  cursor: pointer;
-
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-
-  transition: 0.3s;
-}
-
-.best-seller-circle img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.best-seller-circle:hover {
-  transform: scale(1.06);
-}
-
-.best-seller-item h5 {
-  margin-top: 15px;
-  color: #7b1fa2;
-  font-family: Georgia;
-  font-weight: bold;
-  font-size: clamp(11px, 1.5vw, 17px);
-}
-
-.best-seller-price {
-  color: #333;
-  font-weight: bold;
-  margin-bottom: 8px;
-}
-
-.best-seller-buttons {
+.best-seller-col {
+  flex: 0 0 25%;
+  max-width: 25%;
   display: flex;
   justify-content: center;
-  gap: 8px;
+  align-items: center;
+  padding: 0;
 }
 
-.wishlist-btn,
-.cart-btn {
-  border: none;
-  border-radius: 50%;
-
-  width: 35px;
-  height: 35px;
-
+.best-seller-image {
+  width: 135px;
+  height: 135px;
+  object-fit: cover;
+  border-radius: 8px;
   cursor: pointer;
-
-  transition: 0.3s;
+  display: block;
+  transition: 0.3s ease;
 }
 
-.wishlist-btn {
-  background-color: #f8e9ff;
-  color: #7b1fa2;
+.best-seller-image:hover {
+  transform: scale(1.04);
 }
 
-.cart-btn {
-  background-color: #7b1fa2;
-  color: white;
+
+/* ================================
+   MOBILE
+================================ */
+
+@media (max-width: 576px) {
+
+  .best-seller-col {
+    flex: 0 0 25%;
+    max-width: 25%;
+  }
+
+  .best-seller-image {
+    width: 65px;
+    height: 65px;
+    border-radius: 7px;
+  }
 }
 
-.wishlist-btn:hover,
-.cart-btn:hover {
-  transform: scale(1.1);
+/* customNavbar.jsx */
+/* for bottom navigation-------------------------------------------------------- */
+
+.bottom-nav-link {
+  color: #6b077d !important;
+  font-size: 12px;
+  padding: 8px 5px !important;
+  text-align: center;
 }
 
+.bottom-nav-link i {
+  line-height: 1;
+}
+
+.bottom-nav-link small {
+  font-size: 11px;
+}
+
+
+/* wishlist.jsx */
+
+/* =========================
+   WISHLIST MOBILE----------------------------------------------------------------------------
+========================= */
+
+@media (max-width: 576px) {
+
+  /* Smaller product image */
+  .wishlist-image {
+    height: 140px !important;
+    object-fit: cover;
+  }
+
+  /* Smaller product name */
+  .wishlist-card-title {
+    font-size: 15px;
+    margin-bottom: 6px;
+  }
+
+  /* Smaller price */
+  .wishlist-price {
+    font-size: 16px;
+    margin-bottom: 10px !important;
+  }
+
+  /* Smaller buttons */
+  .wishlist-card-button {
+    font-size: 12px !important;
+    padding: 6px 8px !important;
+  }
+}
 
 /* ----------------for my use----------- */
 

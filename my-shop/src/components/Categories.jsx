@@ -13,31 +13,36 @@ function Categories() {
   const navigate = useNavigate();
 
   const categories = [
-    {
-      name: "Bouquet",
-      image: bouquetImage,
-    },
-    {
-      name: "Orchid",
-      image: orchidImage,
-    },
-    {
-      name: "Pooja",
-      image: poojaImage,
-    },
-    {
-      name: "Garland",
-      image: garlandImage,
-    },
-    {
-      name: "Loose Flowers",
-      image: looseFlowerImage,
-    },
-  ];
+  {
+    name: "Bouquet",
+    category: "Bouquets",
+    image: bouquetImage,
+  },
+  {
+    name: "Orchid",
+    category: "Orchids",
+    image: orchidImage,
+  },
+  {
+    name: "Pooja",
+    category: "Pooja Flowers",
+    image: poojaImage,
+  },
+  {
+    name: "Garland",
+    category: "Garlands",
+    image: garlandImage,
+  },
+  {
+    name: "Loose Flowers",
+    category: "Loose Flowers",
+    image: looseFlowerImage,
+  },
+];
 
   const handleCategory = (category) => {
-    navigate(`/shop?category=${category}`);
-  };
+  navigate(`/shop?category=${encodeURIComponent(category)}`);
+};
 
   return (
     <Container className="my-5 category-container"> 
@@ -63,11 +68,11 @@ function Categories() {
       {/* Categories */}
       <div className="category-row">
 
-        {categories.map((item, index) => (
+        {categories.map((item) => (
           <div
-            key={index}
+            key={item.category}
             className="category-item"
-            onClick={() => handleCategory(item.name)}
+            onClick={() => handleCategory(item.category)}
           >
 
             {/* Image Circle */}

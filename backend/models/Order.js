@@ -34,19 +34,40 @@ const orderSchema = new mongoose.Schema(
     },
 
     shippingAddress: {
+  type: String,
+  required: true,
+},
+
+deliveryDate: {
+  type: Date,
+  default: Date.now,
+},
+
+paymentMethod: {
       type: String,
       required: true,
     },
 
-    paymentMethod: {
-      type: String,
-      required: true,
-    },
-
+    // Current order status
     orderStatus: {
       type: String,
       default: "Pending",
     },
+
+    // Order status history
+    statusHistory: [
+      {
+        status: {
+          type: String,
+          required: true,
+        },
+
+        date: {
+          type: Date,
+          default: Date.now,
+        },
+      },
+    ],
   },
   {
     timestamps: true,
