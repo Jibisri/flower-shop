@@ -298,7 +298,7 @@ function CustomNavbar() {
       {/* Mobile Bottom Navigation */}
       <Navbar
         bg="white"
-        className="fixed-bottom border-top shadow-sm d-lg-none"
+        className="fixed-bottom border-top shadow-sm"
       >
         <Container fluid className="p-0">
           <Nav className="w-100 justify-content-around text-center">
